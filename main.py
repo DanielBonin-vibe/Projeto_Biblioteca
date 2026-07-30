@@ -32,21 +32,21 @@ while True:
 # Cadastrar livro:
 
         if opcao_livro == 1:
-            titulo_livro = input('Informe o titulo do livro: ')
-            autor_livro = input("Digite o autror do livro: ")
+            titulo_livro = input('Informe o título do livro: ')
+            autor_livro = input("Digite o autor do livro: ")
             ano_livro = input('Digite o ano de lançamento: ')
 
             livro = Livro(titulo_livro, autor_livro, ano_livro)  # Aqui criamos o objeto que vai entrar na lista de lvirtos lá na biblioteca
             biblioteca.adicionar_livro(livro)
-            # Não precisa de print, já que já temos na função em biblioteca
 
     # Remover livro
 
         elif opcao_livro == 2:
-            livro_remover = int(input('Digite o Código de identificaçãodo livro a ser removido: '))
-            for livro in biblioteca.livros:            # Para o livro no objeto biblioteca que tema  lista livros, faça:
-                if livro.codigo == livro_remover:      # se livro.codigo for igual ao código informado, faça:
-                    biblioteca.remover_livro(livro)    # chamo o método do objeto biblioteca e remover o livro encontrado
+            buscar_id = int(input('Digite o Código de identificação do livro a ser removido: '))
+
+            usuario_encontrado = biblioteca.verificar_id_livro(buscar_id)   # Guardamos o resultado na variavel
+            if usuario_encontrado:                    # Se for True, faça:
+                biblioteca.remover_livro(livro)    
 
     # Listar Livros:
 
@@ -63,17 +63,15 @@ while True:
 
             usuario = Usuario(nome_usuario, idade_usuario, cpf_usuario, numero_usuario)   # Criamos o objeto usuario com as informações coletadas
             biblioteca.cadastrar_usuario(usuario)
-            # print da função cadatsrar_usuario aqui.
 
     # Remover Usuário:
 
         elif opcao_usuarios == 2:
-            
             buscar_id = int(input('Informe o ID de indentificação do usuário a ser removido: '))
 
-            for usuario in biblioteca.usuarios:
-                if usuario.id == buscar_id:
-                    biblioteca.remover_usuario(usuario)
+            usuario_encontrado = biblioteca.verificar_id_usuario(buscar_id)
+            if usuario_encontrado:                                   # Se for True, faça:
+                biblioteca.remover_usuario(usuario_encontrado)
 
     # Listar Usuários:
 
@@ -83,26 +81,13 @@ while True:
     # Emprestar livro 
 
         elif opcao_acoes == 1:
-            id_usuario_emprestimo = int(input('Informe o ID do usuário: '))
-            id_livro_emprestimo = int(input('Informe o ID do livro: '))
+            buscar_id_usuario = int(input('Informe o ID do usuário: '))
+            buscar_id_livro = int(input('Informe o ID do livro: '))
 
-            usuario_encontrado = None
+            usuario_encontrado = biblioteca.verificar_id_usuario(buscar_id_usuario)  # Procura usuário
+            livro_encontrado = biblioteca.verificar_id_livro(buscar_id_livro)        # Procura livro
 
-            for usuario in biblioteca.usuarios:
-                if usuario.id == id_usuario_emprestimo:
-                    usuario_encontrado = usuario
-                    break
-
-            # Procurar o livro
-            livro_encontrado = None
-
-            for livro in biblioteca.livros:
-                if livro.id_livro == id_livro_emprestimo:
-                    livro_encontrado = livro
-                    break
-
-            # Verificar se ambos foram encontrados
-            if usuario_encontrado and livro_encontrado:
+            if usuario_encontrado and livro_encontrado:             # Se ambos forem True
                 usuario_encontrado.pegar_livro(livro_encontrado)
             else:
                 print("Usuário ou livro não encontrado.")
@@ -110,21 +95,12 @@ while True:
     # Devolver livro
 
         elif opcao_acoes == 2:
-            id_usuario_emprestimo = int(input('Informe o ID do usuário: '))
-            id_livro_emprestimo = int(input('Informe o ID do livro: '))
+            buscar_id_usuario = int(input('Informe o ID do usuário: '))
+            buscar_id_livro = int(input('Informe o ID do livro: '))
 
-            usuario_encontrado = None
-
-            for usuario in biblioteca.usuarios:
-                if id_livro_emprestimo == id.usuario:
-                    usuario_encontrado = usuario 
-                    break
-
-            livro_encontrado = None
-            for livro in biblioteca.livro:
-                if id_livro_emprestimo == id.livro:
-                    livro_encontrado = livro
-                    break
+            usuario_encontrado = biblioteca.verificar_id_usuario(buscar_id_usuario)  # Procura usuário
+            
+            livro_encontrado = biblioteca.verificar_id_livro(buscar_id_livro)        # Procura livro
 
             if usuario_encontrado and livro_encontrado:         # Se ambas as condições forem True
                 usuario_encontrado.devolver_livro(livro_encontrado)
