@@ -104,9 +104,7 @@ while True:
         else:
             print("Usuário ou livro não encontrado.")
 
-
-
-
+#######################################################################################
 
     elif opcao == '8':
         id_usuario_emprestimo = int(input('Informe o ID do usuário: '))
