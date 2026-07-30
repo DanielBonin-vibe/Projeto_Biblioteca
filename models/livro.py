@@ -1,19 +1,19 @@
 class Livro:
-    codigo = 1
+    id_livro = 1
 
     def __init__(self, titulo, autor, ano):
         self.titulo = titulo
         self.autor = autor
         self.ano = ano
         self.disponivel = True
-        self.codigo = Livro.codigo
-        Livro.codigo += 1
+        self.id_livro = Livro.id_livro
+        Livro.id_livro += 1
 
     def exibir_informações(self):
         print(f'Título: {self.titulo}')
         print(f'Autor: {self.autor}')
         print(f'Ano: {self.ano}')
-        print(f'Código de identificação: {self.codigo}')
+        print(f'Código de identificação: {self.id_livro}')
         print(f'Disponível: {self.disponivel}')
 
     def emprestar(self):

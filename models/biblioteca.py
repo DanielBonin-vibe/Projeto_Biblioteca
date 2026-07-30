@@ -19,8 +19,8 @@ class Biblioteca:
         for livro in self.livros:
           livro.exibir_informações()
 
-    def cadastrar_usuario(self, usuario):
-        self.usuarios.append(usuario)
+    def cadastrar_usuario(self, usuario):   # Recebe o objeto 'usuario' 
+        self.usuarios.append(usuario)       # Adiciona o objeto usuario a lista de usuarios 'self.usuarios'
         print(f'O usuário {usuario.nome} foi cadastrado.')
 
     def remover_usuario(self, usuario):
