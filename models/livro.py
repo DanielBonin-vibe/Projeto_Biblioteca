@@ -1,19 +1,19 @@
 class Livro:
-    id_livro = 1
+    id = 1
 
     def __init__(self, titulo, autor, ano):
         self.titulo = titulo
         self.autor = autor
         self.ano = ano
         self.disponivel = True
-        self.id_livro = Livro.id_livro
-        Livro.id_livro += 1
+        self.id = Livro.id
+        Livro.id += 1
 
     def exibir_informações(self):
         print(f'Título: {self.titulo}')
         print(f'Autor: {self.autor}')
         print(f'Ano: {self.ano}')
-        print(f'Código de identificação: {self.id_livro}')
+        print(f'Código de identificação: {self.id}')
         print(f'Disponível: {self.disponivel}')
 
     def emprestar(self):
@@ -25,9 +25,29 @@ class Livro:
             print(f' O {self.titulo} não está disponível para ser emprestado')
 
     def devolver(self):
-        if self.disponjivel == False:
+        if self.disponivel == False:
             self.disponivel = True
             print(f'O {self.titulo} foi devolvido e agora está disponível')
 
         else:
             print(f' O {self.titulo} já está em estoque....')
+
+    def to_dict(self):
+        return {
+        ['titulo']: self.titulo,
+        ['autor']: self.autor,
+        ['ano']: self.ano,
+        ['disponivel']: self.disponivel,
+        ['id']: self.id
+        }
+
+    @classmethod
+    def from_dict(cls, dados):
+        livro = cls(
+        dados['titulo'],
+        dados['autor'],
+        dados['ano'],
+        )
+        livro.disponivel = dados['disponivel']
+        livro.id = dados['id']
+        return livro

@@ -9,7 +9,6 @@ class Usuario:
         self.cpf = cpf 
         self.numero = numero 
         self.livros_emprestados = []
-        Usuario.id += 1
 
     def apresentar(self):
         print(f'Nome: {self.nome}')
@@ -38,4 +37,25 @@ class Usuario:
                 print('O livro não pode ser devolvido.')
 
         else: 
-            print('Você não tem anda a ser devolvido')
+            print('Você não tem nada a ser devolvido')
+
+    def to_dict(self):
+        return {
+        ['nome']: self.nome,
+        ['idade']: self.idade,
+        ['cpf']: self.cpf,
+        ['numero']: self.numero,
+        ['id']: self.id
+        }
+
+    @classmethod
+    def from_dict(cls, dados):
+
+        usuario = cls(
+        dados['nome'],
+        dados['idade'],
+        dados['cpf'],
+        dados['numero']
+        )
+        usuario.id = dados['id']
+        return usuario
