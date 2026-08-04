@@ -4,12 +4,6 @@ from models.biblioteca import Biblioteca
 
 biblioteca = Biblioteca()   # Criamos o objeto Biblioteca
 
-livro1 = Livro("Dom Casmurro", "Machado de Assis", 1899)
-livro2 = Livro("1984", "George Orwell", 1949)
-livro3 = Livro("O Pequeno Príncipe", "Antoine de Saint-Exupéry", 1943)
-
-usuario1 = Usuario("João", 20, "123.456.789-00", "81999999999")
-usuario2 = Usuario("Maria", 22, "987.654.321-00", "81988888888")
 
 while True:
 
