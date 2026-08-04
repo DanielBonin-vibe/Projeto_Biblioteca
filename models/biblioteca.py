@@ -36,6 +36,8 @@ class Biblioteca:
         for usuario in self.usuarios:
             usuario.apresentar()
 
+################## MENU ##########################
+
     def menu_principal(self):
         print('=' * 50)
         print(' ' * 14, 'Sistema De Biblioteca', ' ' * 20)
@@ -65,3 +67,23 @@ class Biblioteca:
         print('2 - Devolver livro')
         print('0 - Voltar')
         return int(input('Digite a ação requerida: '))
+
+################## AÇÕES ##########################
+
+
+def verificar_id_usuario(self, buscar_id_usuario):   # Procura usuário
+    
+
+    for usuario in self.usuarios:                   # Para o objeto 'usuario' na lista de usuários, faça:
+        if usuario.id == buscar_id_usuario:
+            return usuario
+
+    return None        # Retorna None se nenhum usuário for encontrado
+
+def verificar_id_livro(self, buscar_id_livro):       # Procura livro
+
+    for livro in self.livros:
+        if livro.id == buscar_id_livro:
+            return livro
+
+    return None  # Se não for encontardo retorna None
