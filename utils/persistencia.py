@@ -1,3 +1,4 @@
+"""
 import json
 from models import Usuario, Livro
 def salvar_usuarios(usuarios):
@@ -41,3 +42,35 @@ def carregar_livros():
     for livro in dados:
         livros.append(Livro.from_dict(livro))
         return livros
+"""
+
+import sqlite3
+
+conexao = sqlite3.connect('biblioteca.db')
+print('Conectado')
+
+cursor = conexao.cursor()
+
+cursor.execute(
+    """
+CREATE TABLE IF NOT EXISTS usuarios(
+    id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    idade INTEGER NOT NULL,
+    cpf TEXT NOT NULL,
+    numero INTEGER NOT NULL)
+    """)
+
+cursor.execute(
+    """
+CREATE TABLE IF NOT EXISTS livros(
+    id_livro INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL,
+    autor TEXT NOT NULL,
+    ano INTERGER NOT NULL,
+    disponivel INTERGER NOT NULL DEFAULT 1)
+    """) 
+
+conexao.commit()
+
+conexao.close()

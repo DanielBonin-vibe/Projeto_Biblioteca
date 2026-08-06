@@ -1,7 +1,7 @@
 from .livro import Livro
 
 class Usuario:
-    id = 0
+    # id = 0
 
     def __init__(self, nome, idade, cpf, numero):
         self.nome = nome
@@ -15,7 +15,6 @@ class Usuario:
         print(f'Idade: {self.idade}')
         print(f'CPF: {self.cpf}')
         print(f'Número de telefone: {self.numero}')
-        print(f'Id: {self.id}')
         print(f'Livros emprestados: {self.livros_emprestados}')
 
     def pegar_livro(self, livro ):
@@ -38,7 +37,7 @@ class Usuario:
 
         else: 
             print('Você não tem nada a ser devolvido')
-
+"""
     def to_dict(self):
         return {
         ['nome']: self.nome,
@@ -59,3 +58,4 @@ class Usuario:
         )
         usuario.id = dados['id']
         return usuario
+"""
