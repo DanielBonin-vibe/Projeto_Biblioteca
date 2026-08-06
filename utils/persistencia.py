@@ -43,10 +43,11 @@ def carregar_livros():
         livros.append(Livro.from_dict(livro))
         return livros
 """
-
+############################################################
+# Criação das tabelas
 import sqlite3
 
-conexao = sqlite3.connect('biblioteca.db')
+conexao = sqlite3.connect('database/biblioteca.db')
 print('Conectado')
 
 cursor = conexao.cursor()
@@ -58,7 +59,7 @@ CREATE TABLE IF NOT EXISTS usuarios(
     nome TEXT NOT NULL,
     idade INTEGER NOT NULL,
     cpf TEXT NOT NULL,
-    numero INTEGER NOT NULL)
+    numero TEXT NOT NULL)
     """)
 
 cursor.execute(
@@ -68,9 +69,28 @@ CREATE TABLE IF NOT EXISTS livros(
     titulo TEXT NOT NULL,
     autor TEXT NOT NULL,
     ano INTERGER NOT NULL,
-    disponivel INTERGER NOT NULL DEFAULT 1)
+     disponivel INTERGER NOT NULL DEFAULT 1)
     """) 
 
 conexao.commit()
-
 conexao.close()
+######################################################
+
+# Salvar usuários:
+def salvar_usuario(usuario):
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    INSERT INTO usuarios(nome, idade, cpf, numero)
+    VALUES(?, ?, ?, ?) """,
+    (
+        usuario.nome,
+        usuario.idade,
+        usuario.cpf,
+        usuario.numero
+    )
+    )
+
+    conexao.commit()
+    conexao.close()

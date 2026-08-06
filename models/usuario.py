@@ -1,5 +1,6 @@
 from .livro import Livro
 
+
 class Usuario:
     # id = 0
 

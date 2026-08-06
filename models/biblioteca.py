@@ -21,7 +21,7 @@ class Biblioteca:
           livro.exibir_informações()
 
     def cadastrar_usuario(self, usuario):   # Recebe o objeto 'usuario' 
-        self.usuarios.append(usuario)       # Adiciona o objeto usuario a lista de usuarios 'self.usuarios'
+        persistencia.salvar_usuario(usuario)
         print(f'O usuário {usuario.nome} foi cadastrado.')
 
 
@@ -44,25 +44,32 @@ class Biblioteca:
         print('2 - Usuários')
         print('3 - Empréstimos')
         print('0 - Sair')
+        print()
         return int(input('Digite a seleção: '))
 
     def menu_livros(self):
+        print()
         print('1 - Cadastrar livro')
         print('2 - Remover livro')
         print('3 - Empréstimos')
         print('0 - Voltar')
+        print()
         return int(input('Digite a seleção: '))
 
     def menu_usuarios(self):
+        print()
         print('1 - Criar usuário')
         print('2 - Remover usuário')
         print('3 - Listar usuário')
+        print()
         return int(input('Digite a seleção: '))
 
     def menu_acoes(self):
+        print()
         print('1 - Emprestar livro')
         print('2 - Devolver livro')
         print('0 - Voltar')
+        print()
         return int(input('Digite a ação requerida: '))
 
 ################## AÇÕES ##########################
