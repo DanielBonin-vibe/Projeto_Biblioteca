@@ -1,48 +1,3 @@
-"""
-import json
-from models import Usuario, Livro
-def salvar_usuarios(usuarios):
-
-    dados = []
-
-    for usuario in usuarios:
-        dados.append(usuario.to_dict())
-
-    with open('dados/usuarios.json', 'w', encoding='utf-8') as arquivo:
-        json.dump(dados, arquivo, indent=4, ensure_ascii=False)
-
-def salvar_livros(livros):
-
-    dados = []
-
-    for livro in livros:
-        dados.append(livro.to_dict())
-
-    with open('dados/livros.json', 'w', encoding='utf-8') as arquivo:
-        json.dump(dados, arquivo, indent=4, ensure_ascii=False)
-
-
-def carregar_usuarios():
-    with open('dados/usuarios.json', 'r', encoding='utf-8') as arquivo:
-        dados = json.load(arquivo)
-
-    usuarios = []
-
-    for usuario in dados:
-        usuarios.append(Usuario.from_dict(usuario))
-        return usuarios
-
-
-def carregar_livros():
-    with open('dados/livros.json', 'r', encoding='utf-8') as arquivo:
-        dados = json.load(arquivo)
-
-        livros = []
-
-    for livro in dados:
-        livros.append(Livro.from_dict(livro))
-        return livros
-"""
 ############################################################
 # Criação das tabelas
 import sqlite3
@@ -69,7 +24,7 @@ CREATE TABLE IF NOT EXISTS livros(
     titulo TEXT NOT NULL,
     autor TEXT NOT NULL,
     ano INTERGER NOT NULL,
-     disponivel INTERGER NOT NULL DEFAULT 1)
+    disponivel INTERGER NOT NULL DEFAULT 1)
     """) 
 
 conexao.commit()
@@ -131,5 +86,50 @@ def listar_usuarios():
 
     conexao.close()
 
+def cadastrar_livro(livro):
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
 
-def cadatsrar_livro
+    cursor.execute("""
+    INSERT INTO livros(titulo, autor, ano, disponivel)
+    VALUES(?, ?, ?, ?)
+    """, (livro.titulo, livro.autor, livro.ano, livro.disponivel)
+    )
+
+    conexao.commit()
+    conexao.close()
+
+def apagar_livro(livro):
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute(
+        """
+        DELETE FROM livros
+        WHERE id_livro = ?
+        """,
+        (livro,) 
+        )
+
+    conexao.commit()
+    conexao.close()
+
+def pecorrer_livros():
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute(""" SELECT * FROM livros""")
+
+    livros = cursor.fetchall()
+
+    for livro in livros:
+        print(f"""
+        ID: {livro[0]}
+        Título: {livro[1]}
+        Autor: {livro[2]}
+        Ano: {livro[3]}
+        Disponibilidade: {livro[4]}
+        """)
+
+    conexao.commit()
+    conexao.close()

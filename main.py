@@ -14,24 +14,20 @@ while True:
         opcao_livro = biblioteca.menu_livros() 
 
         if opcao_livro == 1:
-            titulo_livro = input('Informe o título do livro: ')
-            autor_livro = input("Digite o autor do livro: ")
-            ano_livro = input('Digite o ano de lançamento: ')
-        
-            livro = Livro(titulo_livro, autor_livro, ano_livro)  
+            titulo = input('Informe o título do livro: ')
+            autor = input("Digite o autor do livro: ")
+            ano = input('Digite o ano de lançamento: ')
+            livro = Livro(titulo, autor, ano)  
             biblioteca.adicionar_livro(livro)
         
         # Remover livro
         elif opcao_livro == 2:
-            buscar_id = int(input('Digite o Código de identificação do livro a ser removido: '))
-            usuario_encontrado = biblioteca.verificar_id_livro(buscar_id) 
-
-            if usuario_encontrado:                  
-                biblioteca.remover_livro(livro)    
-        
+            id_livro = int(input('Digite o Código de identificação do livro a ser removido: '))
+            biblioteca.remover_livro(id_livro)
+ 
          # Listar Livros:
-            elif opcao_livro == 3:
-                biblioteca.listar_livros()
+        elif opcao_livro == 3:
+            biblioteca.listar_livros()
         
 ##############################################################################################################
     elif opcao_inicial == 2:

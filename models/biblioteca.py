@@ -6,19 +6,19 @@ class Biblioteca:
         self.livros = persistencia.carregar_livros()
         self.usuarios = persistencia.carregar_usuarios()
         """
-    def adicionar_livro(self, livro):      # Vai receber o objeto Livro 
-        self.livros.append(livro)          # Adiciona a lista 'self.livros' o objeto livro criado em livros.py
+    def adicionar_livro(self, livro):      
+        persistencia.cadastrar_livro(livro)     
         print(f'O livro "{livro.titulo}" foi adicionado à biblioteca.')
 
         
-    def remover_livros(self, livro):
-        self.livros.remove(livro)
+    def remover_livro(self, livro):
+        persistencia.apagar_livro(livro)
         print(f'O livro {livro.titulo} foi removido da nossa coletânea')
 
 
     def listar_livros(self):
-        for livro in self.livros:
-          livro.exibir_informações()
+        persistencia.pecorrer_livros()
+        print('Listagem completa')
 
     def cadastrar_usuario(self, usuario):   # Recebe o objeto 'usuario' 
         persistencia.salvar_usuario(usuario)
@@ -51,7 +51,7 @@ class Biblioteca:
         print()
         print('1 - Cadastrar livro')
         print('2 - Remover livro')
-        print('3 - Empréstimos')
+        print('3 - Listar livros')
         print('0 - Voltar')
         print()
         return int(input('Digite a seleção: '))
@@ -60,7 +60,7 @@ class Biblioteca:
         print()
         print('1 - Criar usuário')
         print('2 - Remover usuário')
-        print('3 - Listar usuário')
+        print('3 - Listar usuários')
         print()
         return int(input('Digite a seleção: '))
 
