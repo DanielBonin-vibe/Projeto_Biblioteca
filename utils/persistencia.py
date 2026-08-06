@@ -94,3 +94,42 @@ def salvar_usuario(usuario):
 
     conexao.commit()
     conexao.close()
+
+def remover_usuario(usuario):
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    DELETE FROM usuarios
+    WHERE id_usuario = ?
+    """,
+    (usuario,)
+    )
+
+    conexao.commit()
+    conexao.close()
+
+def listar_usuarios():
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT * FROM usuarios
+    """)
+
+    usuarios = cursor.fetchall()
+
+    for usuario in usuarios:
+        print(f"""
+        ID: {usuario[0]}
+        Nome: {usuario[1]}
+        Idade: {usuario[2]}
+        CPF: {usuario[3]}
+        Telefone: {usuario[4]}
+        ----------------------
+              """)
+
+    conexao.close()
+
+
+def cadatsrar_livro

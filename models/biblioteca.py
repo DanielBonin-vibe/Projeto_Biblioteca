@@ -25,13 +25,13 @@ class Biblioteca:
         print(f'O usuário {usuario.nome} foi cadastrado.')
 
 
-    def remover_usuario(self, usuario):
-        self.usuarios.remove(usuario)
-        print(f'O usuário {usuario.nome} foi removido do nosso cadastrado.')
+    def remover_usuario(self, id_usuario):
+        persistencia.remover_usuario(id_usuario)
+        print(f'O usuário foi removido do nosso cadastro.')
 
     def listar_usuarios(self):
-        for usuario in self.usuarios:
-            usuario.apresentar()
+        persistencia.listar_usuarios()
+        print('Listagem concluída')
 
 ################## MENU ##########################
 

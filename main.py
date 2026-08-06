@@ -2,9 +2,6 @@ from models.livro import Livro
 from models.usuario import Usuario
 from models.biblioteca import Biblioteca
 
-import os
-
-print(os.getcwd())
 
 biblioteca = Biblioteca()   # Criamos o objeto Biblioteca
 
@@ -51,10 +48,8 @@ while True:
         
         # Remover Usuário:
         elif opcao_usuarios == 2:
-            buscar_id = int(input('Informe o ID de indentificação do usuário a ser removido: '))
-            usuario_encontrado = biblioteca.verificar_id_usuario(buscar_id)
-            if usuario_encontrado:                                   
-                biblioteca.remover_usuario(usuario_encontrado)
+            id_usuario= int(input('Informe o ID de indentificação do usuário a ser removido: '))
+            biblioteca.remover_usuario(id_usuario)
         
             # Listar Usuários:
         elif opcao_usuarios == 3:
