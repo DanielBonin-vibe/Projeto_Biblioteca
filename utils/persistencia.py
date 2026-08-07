@@ -133,3 +133,19 @@ def pecorrer_livros():
 
     conexao.commit()
     conexao.close()
+
+def contar_livros():
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT COUNT(*) FROM livros
+    """)
+
+    quantidade = cursor.fetchall()[0]   # O COUNT retorna apenas uma linha, é vital colcoar o fetchall()[0]
+    print(f'A quantidade de livros em nossa biblioteca é {quantidade}')
+
+    conexao.commit()
+    conexao.close()
+
+

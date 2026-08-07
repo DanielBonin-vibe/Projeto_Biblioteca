@@ -31,7 +31,7 @@ class Biblioteca:
 
     def listar_usuarios(self):
         persistencia.listar_usuarios()
-        print('Listagem concluída')
+        persistencia.contar_livros()
 
 ################## MENU ##########################
 
