@@ -27,6 +27,13 @@ CREATE TABLE IF NOT EXISTS livros(
     disponivel INTERGER NOT NULL DEFAULT 1)
     """) 
 
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS emprestimos(
+    id_emprestimo INTERGER PRIMARY KEY AUTOINCREMENT,
+    id_usuario INTERGER NOT NULL,
+    id_livro INTERGER NOT NULL):
+    """)
+
 conexao.commit()
 conexao.close()
 ######################################################
@@ -148,4 +155,144 @@ def contar_livros():
     conexao.commit()
     conexao.close()
 
+##################################################################################
+# Filtros:
 
+def filtrar__livro_ano():
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT ano, COUNT(*) FROM livros
+        GROUP BY ano
+        ORDER BY ano;
+    """)
+
+    filtro = cursor.fetchall()
+
+    for ano, quantidade in filtro:
+        print(f'{ano} -> {quantidade} livros(s)')
+
+
+    conexao.commit()
+    conexao.close()
+
+def filtrar_livro_ordem_alfabetica():
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT * FROM livros 
+    ORDER BY nome ASC
+    """)
+
+    filtro = cursor.fetchall()
+
+    for livro in filtro:
+        print(f"""
+            ID: {livro[0]}
+            Nome: {livro[1]}
+            Autor: {livro[2]}
+            Ano: {livro[3]}
+            Disponibilidade: {livro[4]}
+            """)
+
+    conexao.commit()
+    conexao.close()
+
+
+def filtrar_encontrar_livro_nome(nome_pesquisado):
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT * FROM livros
+    WHERE nome LIKE  ?
+    """, (f'%{nome_pesquisado}%',)
+    )
+
+    filtro = cursor.fetchall()
+
+    for livro in filtro:
+        print(f"""
+            ID: {livro[0]}
+            Nome: {livro[1]}
+            Autor: {livro[2]}
+            Ano: {livro[3]}
+            Disponibilidade: {livro[4]}
+            """)
+
+    conexao.commit()
+    conexao.close()
+
+####################################################################################
+def cadastrar_emprestimo(id_usuario, id_livro):
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    INSERT INTO emprestimos (id_usuario, id_livro)
+    VALUES (?, ?)
+    """, (id_usuario, id_livro))
+
+    cursor.execute("""
+        UPDATE livros
+        SET disponivel = 0
+        WHERE id_livro = ?
+    """, (id_livro,))
+    # Aqui fazemos que ao ser emprestado, o valor se torne 0
+
+    conexao.commit()
+    conexao.close()
+
+def listar_emprestimos():
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT usuarios.nome, livros.titulo FROM emprestimos 
+    INNER JOIN usuarios
+        ON emprestimos.id_usuario = usuarios.id_usuario 
+        ON emprestimos.id_livro = livros.id_livro
+    """)
+
+    emprestimos = cursor.fetchall()
+
+    for emprestimo in emprestimos:
+        print(f'Usuário: {emprestimo[0]}')
+        print(f'Livro: {emprestimo[1]}')
+        print('----------------')
+
+    conexao.commit()
+    conexao.close()
+
+def devolver_emprestimo(id_emprestimo):
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT id_livro FROM emprestimos
+    WHERE id_emprestimo = ?
+    """, (id_emprestimo,))
+    # Estamos descobrindo qual livro pertence áqeuele empréstimo
+
+    emprestimo = cursor.fetchall()
+
+    if emprestimo:
+        id_livro = emprestimo[0]
+
+    cursor.execute("""
+    UPDATE livros
+    SET disponivel = 1
+    WHERE id_livro = ?
+    """, (id_livro,))
+    # Marcamos o livro como disponível
+
+    cursor.execute("""
+        DELETE FROM emprestimos
+        WHERE id_emprestimo = ?
+    """, (id_emprestimo))
+    # retiramos o empréstimo da tabela
+
+    conexao.commit()
+    conexao.close()

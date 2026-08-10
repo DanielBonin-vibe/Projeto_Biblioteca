@@ -28,6 +28,18 @@ while True:
          # Listar Livros:
         elif opcao_livro == 3:
             biblioteca.listar_livros()
+#################################################################
+        if opcao_livro == 2:
+            opcao_pesquisa = biblioteca.barra_pesquisa()
+            if opcao_pesquisa == 1:
+                biblioteca.filtro_ano()
+
+            elif opcao_pesquisa == 2:
+                biblioteca.filtro_ordem_alfabetica
+
+            elif opcao_pesquisa == 3:
+                nome_pesquisado = input('Informe uma tentativa do nome')
+                biblioteca.filtro_encontrar_pelo_nome(nome_pesquisado)
         
 ##############################################################################################################
     elif opcao_inicial == 2:
@@ -55,32 +67,21 @@ while True:
     elif opcao_inicial == 3:
         opcao_acoes = biblioteca.menu_acoes()
 
-    # Emprestar livro 
+    # Emprestar livro:
         if opcao_acoes == 1:
-            buscar_id_usuario = int(input('Informe o ID do usuário: '))
-            buscar_id_livro = int(input('Informe o ID do livro: '))
+            biblioteca.emprestar_livro()
+       
 
-            usuario_encontrado = biblioteca.verificar_id_usuario(buscar_id_usuario)  # Procura usuário
-            livro_encontrado = biblioteca.verificar_id_livro(buscar_id_livro)        # Procura livro
-
-            if usuario_encontrado and livro_encontrado:             # Se ambos forem True
-                usuario_encontrado.pegar_livro(livro_encontrado)
-            else:
-                print("Usuário ou livro não encontrado.")
-
-    # Devolver livro
+    # Listar empréstimos:
         elif opcao_acoes == 2:
-            buscar_id_usuario = int(input('Informe o ID do usuário: '))
-            buscar_id_livro = int(input('Informe o ID do livro: '))
+            biblioteca.listar_emprestimos()
 
-            usuario_encontrado = biblioteca.verificar_id_usuario(buscar_id_usuario)  # Procura usuário
-            
-            livro_encontrado = biblioteca.verificar_id_livro(buscar_id_livro)        # Procura livro
+    # Devolver livro:
+        elif opcao_acoes == 3:
+            id_emprestimo = int(input('Digite o ID do empréstimo: '))
+            biblioteca.devolver_emprestimo(id_emprestimo)
 
-            if usuario_encontrado and livro_encontrado:         # Se ambas as condições forem True
-                usuario_encontrado.devolver_livro(livro_encontrado)
-            else:
-                print("Usuário ou livro não encontrado.")
+###################################################################################################
 
     # Sair
         elif opcao_acoes and opcao_usuarios and opcao_livro == 0:

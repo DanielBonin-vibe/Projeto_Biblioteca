@@ -33,6 +33,15 @@ class Biblioteca:
         persistencia.listar_usuarios()
         persistencia.contar_livros()
 
+    def filtro_ano(self):
+        persistencia.filtrar__livro_ano()
+
+    def filtro_ordem_alfabetica(self):
+        persistencia.filtrar_livro_ordem_alfabetica()
+
+    def filtro_encontrar_pelo_nome(self, nome_pesquisado):
+        persistencia.filtrar_encontrar_livro_nome(nome_pesquisado)
+
 ################## MENU ##########################
 
     def menu_principal(self):
@@ -43,6 +52,7 @@ class Biblioteca:
         print('1 - Livros')
         print('2 - Usuários')
         print('3 - Empréstimos')
+        print('4 - Pesquisar')
         print('0 - Sair')
         print()
         return int(input('Digite a seleção: '))
@@ -67,27 +77,33 @@ class Biblioteca:
     def menu_acoes(self):
         print()
         print('1 - Emprestar livro')
-        print('2 - Devolver livro')
+        print('2 - Listar empréstimos')
+        print('3 - Devolver livro')
         print('0 - Voltar')
         print()
         return int(input('Digite a ação requerida: '))
 
+    def barra_pesquisa(self):
+        print()
+        print('1 - Descobrir nossa biblioteca por ano')
+        print('2 - Descobrir nossa biblioteca por ordem alfabética')
+        print('3 - Pesquisar pelo nome')
+        print()
+        return int(input('Informe a ação requerida: '))
+
+        
+
 ################## AÇÕES ##########################
 
 
-def verificar_id_usuario(self, buscar_id_usuario):   # Procura usuário
-    
+    def emprestar_livro(self):
+        id_usuario = int(input('Digite o ID do usuário: '))
+        id_livro = int(input('Digite o ID do livro: '))
 
-    for usuario in self.usuarios:                   # Para o objeto 'usuario' na lista de usuários, faça:
-        if usuario.id == buscar_id_usuario:
-            return usuario
+        persistencia.cadastrar_emprestimo(id_usuario, id_livro)
 
-    return None        # Retorna None se nenhum usuário for encontrado
+    def listar_emprestimos():
+        persistencia.listar_emprestimos()
 
-def verificar_id_livro(self, buscar_id_livro):       # Procura livro
-
-    for livro in self.livros:
-        if livro.id == buscar_id_livro:
-            return livro
-
-    return None  # Se não for encontardo retorna None
+    def devolver_emprestimo(self, id_emprestimo):
+        persistencia.devolver_emprestimo(id_emprestimo)
