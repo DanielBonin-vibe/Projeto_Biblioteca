@@ -32,15 +32,16 @@ while True:
         if opcao_aluno == 1:
             banco_de_dados.relatorio_aluno_total()
 
-        """
-        elif opcao ==  2:
+        elif opcao_aluno ==  2:
+
+
+            
+#        elif opcao == 3:
             ...
-        elif opcao == 3:
+#        elif opcao == 4:
             ...
-        elif opcao == 4:
+#        elif opcao == 5:
             ...
-        elif opcao == 5:
-            ...
-        else:
-            print('Opção inválida')
-        """
+#        else:
+#            print('Opção inválida')
+        

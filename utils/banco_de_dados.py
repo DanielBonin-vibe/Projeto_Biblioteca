@@ -189,7 +189,6 @@ def filtrar_livro_ordem_alfabetica():
     conexao.commit()
     conexao.close()
 
-
 def filtrar_encontrar_livro_nome(nome_pesquisado):
     conexao = sqlite3.connect('database/biblioteca.db')
     cursor = conexao.cursor()
@@ -301,7 +300,7 @@ def relatorio_livro_total():
     print(f'O total de livros cadastrados é: {contagem}')
 
     cursor.execute("""
-    SELECT * FROM aluno
+    SELECT * FROM livro
     """)
 
     resultado = cursor.fetchall()
@@ -316,3 +315,21 @@ def relatorio_livro_total():
     conexao.close()
 
 def relatorio_livro_ordem_alfabetica():
+    conexao = sqlite3.connect('database/biblioteca.db')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT * FROM livro
+    ORDER BY titulo ASC
+    """)
+
+    resultado = cursor.fetchall()
+
+    for livro in resultado:
+        print(f'ID: {resultado[0]}')
+        print(f'Título: {resultado[1]}')
+        print(f'Autor: {resultado[2]}')
+        print(f'Ano: {resultado[3]}')
+        print(f'Disponível: {resultado[4]}')
+
+    conexao.close()
