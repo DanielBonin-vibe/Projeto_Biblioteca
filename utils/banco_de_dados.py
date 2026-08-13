@@ -45,14 +45,8 @@ def salvar_usuario(usuario):
 
     cursor.execute("""
     INSERT INTO usuarios(nome, idade, cpf, numero)
-    VALUES(?, ?, ?, ?) """,
-    (
-        usuario.nome,
-        usuario.idade,
-        usuario.cpf,
-        usuario.numero
-    )
-    )
+    VALUES(?, ?, ?, ?) 
+    """,(usuario.nome, usuario.idade, usuario.cpf, usuario.numero))
 
     conexao.commit()
     conexao.close()
@@ -64,9 +58,7 @@ def remover_usuario(usuario):
     cursor.execute("""
     DELETE FROM usuarios
     WHERE id_usuario = ?
-    """,
-    (usuario,)
-    )
+    """,(usuario,))
 
     conexao.commit()
     conexao.close()
@@ -100,8 +92,7 @@ def cadastrar_livro(livro):
     cursor.execute("""
     INSERT INTO livros(titulo, autor, ano, disponivel)
     VALUES(?, ?, ?, ?)
-    """, (livro.titulo, livro.autor, livro.ano, livro.disponivel)
-    )
+    """, (livro.titulo, livro.autor, livro.ano, livro.disponivel))
 
     conexao.commit()
     conexao.close()
@@ -114,9 +105,7 @@ def apagar_livro(livro):
         """
         DELETE FROM livros
         WHERE id_livro = ?
-        """,
-        (livro,) 
-        )
+        """,(livro,))
 
     conexao.commit()
     conexao.close()

@@ -1,4 +1,4 @@
-from utils import persistencia
+from Projeto_Biblioteca.utils import banco_de_dados
 
 class Biblioteca:
     def __init__(self):
@@ -7,40 +7,40 @@ class Biblioteca:
         self.usuarios = persistencia.carregar_usuarios()
         """
     def adicionar_livro(self, livro):      
-        persistencia.cadastrar_livro(livro)     
+        banco_de_dados.cadastrar_livro(livro)     
         print(f'O livro "{livro.titulo}" foi adicionado à biblioteca.')
 
         
     def remover_livro(self, livro):
-        persistencia.apagar_livro(livro)
+        banco_de_dados.apagar_livro(livro)
         print(f'O livro {livro.titulo} foi removido da nossa coletânea')
 
 
     def listar_livros(self):
-        persistencia.pecorrer_livros()
+        banco_de_dados.pecorrer_livros()
         print('Listagem completa')
 
     def cadastrar_usuario(self, usuario):   # Recebe o objeto 'usuario' 
-        persistencia.salvar_usuario(usuario)
+        banco_de_dados.salvar_usuario(usuario)
         print(f'O usuário {usuario.nome} foi cadastrado.')
 
 
     def remover_usuario(self, id_usuario):
-        persistencia.remover_usuario(id_usuario)
+        banco_de_dados.remover_usuario(id_usuario)
         print(f'O usuário foi removido do nosso cadastro.')
 
     def listar_usuarios(self):
-        persistencia.listar_usuarios()
-        persistencia.contar_livros()
+        banco_de_dados.listar_usuarios()
+        banco_de_dados.contar_livros()
 
     def filtro_ano(self):
-        persistencia.filtrar__livro_ano()
+        banco_de_dados.filtrar__livro_ano()
 
     def filtro_ordem_alfabetica(self):
-        persistencia.filtrar_livro_ordem_alfabetica()
+        banco_de_dados.filtrar_livro_ordem_alfabetica()
 
     def filtro_encontrar_pelo_nome(self, nome_pesquisado):
-        persistencia.filtrar_encontrar_livro_nome(nome_pesquisado)
+        banco_de_dados.filtrar_encontrar_livro_nome(nome_pesquisado)
 
 ################## MENU ##########################
 
@@ -53,6 +53,7 @@ class Biblioteca:
         print('2 - Usuários')
         print('3 - Empréstimos')
         print('4 - Pesquisar')
+        print('5 - Relatórios')
         print('0 - Sair')
         print()
         return int(input('Digite a seleção: '))
@@ -100,10 +101,10 @@ class Biblioteca:
         id_usuario = int(input('Digite o ID do usuário: '))
         id_livro = int(input('Digite o ID do livro: '))
 
-        persistencia.cadastrar_emprestimo(id_usuario, id_livro)
+        banco_de_dados.cadastrar_emprestimo(id_usuario, id_livro)
 
     def listar_emprestimos():
-        persistencia.listar_emprestimos()
+        banco_de_dados.listar_emprestimos()
 
     def devolver_emprestimo(self, id_emprestimo):
-        persistencia.devolver_emprestimo(id_emprestimo)
+        banco_de_dados.devolver_emprestimo(id_emprestimo)
