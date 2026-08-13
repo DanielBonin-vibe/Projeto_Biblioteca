@@ -1,4 +1,4 @@
-import sqlite3
+import menu, banco_de_dados
 
 def menu_senha_relatorio(self):
     senha_correta = '1234'
@@ -22,20 +22,17 @@ def menu_senha_relatorio(self):
     print('Acesso bloqueado')
     return False
 
-def menu_relatorio(self):
-    while True:
-        print()
-        print('=' * 20, 'RELATÓRIOS', '=' * 20)
-        print()
-        print('1 - ')
-        print('2 - ')
-        print('3 - ')
-        print('4 - ')
-        print('5 - ')
-        opcao = int(input('Escolha uma opcao: '))
 
-        if opcao == 1:
-            ...
+while True:
+    opcao_relatorio = menu.menu_relatorio()
+
+    if opcao_relatorio == 1:
+        opcao_aluno = menu.menu_relatorio_aluno()
+
+        if opcao_aluno == 1:
+            banco_de_dados.relatorio_aluno_total()
+
+        """
         elif opcao ==  2:
             ...
         elif opcao == 3:
@@ -46,3 +43,4 @@ def menu_relatorio(self):
             ...
         else:
             print('Opção inválida')
+        """
