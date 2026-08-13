@@ -10,11 +10,9 @@ class Biblioteca:
         banco_de_dados.cadastrar_livro(livro)     
         print(f'O livro "{livro.titulo}" foi adicionado à biblioteca.')
 
-        
     def remover_livro(self, livro):
         banco_de_dados.apagar_livro(livro)
         print(f'O livro {livro.titulo} foi removido da nossa coletânea')
-
 
     def listar_livros(self):
         banco_de_dados.pecorrer_livros()
@@ -24,7 +22,6 @@ class Biblioteca:
         banco_de_dados.salvar_usuario(usuario)
         print(f'O usuário {usuario.nome} foi cadastrado.')
 
-
     def remover_usuario(self, id_usuario):
         banco_de_dados.remover_usuario(id_usuario)
         print(f'O usuário foi removido do nosso cadastro.')
@@ -32,6 +29,9 @@ class Biblioteca:
     def listar_usuarios(self):
         banco_de_dados.listar_usuarios()
         banco_de_dados.contar_livros()
+
+################################
+# Barra de pesquisa:
 
     def filtro_ano(self):
         banco_de_dados.filtrar__livro_ano()

@@ -1,6 +1,7 @@
 from models.livro import Livro
 from models.usuario import Usuario
 from models.biblioteca import Biblioteca
+from utils import relatorios
 biblioteca = Biblioteca()   # Criamos o objeto Biblioteca
 
 while True:
@@ -77,14 +78,18 @@ while True:
 #################################################################################################################
 
     elif opcao_inicial == 5:
+        acesso = relatorios.menu_senha_relatorio()
+
+        if acesso:
+            relatorios.menu_relatorio()
 
 ###################################################################################################
 
-        elif opcao_acoes and opcao_usuarios and opcao_livro == 0:
-            print('Saindo...')
-            break
+    elif opcao_acoes and opcao_usuarios and opcao_livro == 0:
+        print('Saindo...')
+        break
 
-        else:   
-            print('Insira algo válido!')
+    else:   
+        print('Insira algo válido!')
    
     
