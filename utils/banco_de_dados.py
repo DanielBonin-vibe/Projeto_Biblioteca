@@ -101,6 +101,7 @@ def apagar_livro(livro):
         DELETE FROM livros
         WHERE id_livro = ?
         """,(livro,))
+    
 
     conexao.commit()
     conexao.close()
@@ -113,16 +114,8 @@ def pecorrer_livros():
 
     livros = cursor.fetchall()
 
-    for livro in livros:
-        print(f"""
-        ID: {livro[0]}
-        Título: {livro[1]}
-        Autor: {livro[2]}
-        Ano: {livro[3]}
-        Disponibilidade: {livro[4]}
-        """)
+    return livros
 
-    conexao.commit()
     conexao.close()
 
 def contar_livros():
@@ -134,15 +127,15 @@ def contar_livros():
     """)
 
     quantidade = cursor.fetchall()[0]   # O COUNT retorna apenas uma linha, é vital colcoar o fetchall()[0]
-    print(f'A quantidade de livros em nossa biblioteca é {quantidade}')
 
-    conexao.commit()
     conexao.close()
+
+    return {'Quantidade': quantidade}
 
 ##################################################################################
 # Filtros:
 
-def filtrar__livro_ano():
+def filtrar_livro_ano():
     conexao = sqlite3.connect('database/biblioteca.db')
     cursor = conexao.cursor()
 
@@ -154,12 +147,9 @@ def filtrar__livro_ano():
 
     filtro = cursor.fetchall()
 
-    for ano, quantidade in filtro:
-        print(f'{ano} -> {quantidade} livros(s)')
-
-
-    conexao.commit()
     conexao.close()
+
+    return filtro 
 
 def filtrar_livro_ordem_alfabetica():
     conexao = sqlite3.connect('database/biblioteca.db')
@@ -172,17 +162,9 @@ def filtrar_livro_ordem_alfabetica():
 
     filtro = cursor.fetchall()
 
-    for livro in filtro:
-        print(f"""
-            ID: {livro[0]}
-            Nome: {livro[1]}
-            Autor: {livro[2]}
-            Ano: {livro[3]}
-            Disponibilidade: {livro[4]}
-            """)
-
-    conexao.commit()
     conexao.close()
+
+    return filtro
 
 def filtrar_encontrar_livro_nome(nome_pesquisado):
     conexao = sqlite3.connect('database/biblioteca.db')
@@ -196,17 +178,9 @@ def filtrar_encontrar_livro_nome(nome_pesquisado):
 
     filtro = cursor.fetchall()
 
-    for livro in filtro:
-        print(f"""
-            ID: {livro[0]}
-            Nome: {livro[1]}
-            Autor: {livro[2]}
-            Ano: {livro[3]}
-            Disponibilidade: {livro[4]}
-            """)
-
-    conexao.commit()
     conexao.close()
+
+    return filtro
 
 ####################################################################################
 def cadastrar_emprestimo(id_usuario, id_livro):
