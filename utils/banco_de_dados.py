@@ -75,18 +75,10 @@ def listar_usuarios():
     """)
 
     usuarios = cursor.fetchall()
-
-    for usuario in usuarios:
-        print(f"""
-        ID: {usuario[0]}
-        Nome: {usuario[1]}
-        Idade: {usuario[2]}
-        CPF: {usuario[3]}
-        Telefone: {usuario[4]}
-        ----------------------
-              """)
-
+    
     conexao.close()
+
+    return usuarios
 
 def cadastrar_livro(livro):
     conexao = sqlite3.connect('database/biblioteca.db')

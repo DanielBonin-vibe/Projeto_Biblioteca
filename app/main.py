@@ -10,9 +10,23 @@ class Usuario(BaseModel): #  Estamos ensinando o modelo básico com Pydentic
     numero: str
 
 @app.post('/usuarios')
-def criar_usuario(usuario: Usuario):    # Estamos dizendo que o corpo da requisição deve seguir o modelo Usuario, 'usuario' é um objeto baseado na classe 'Usuario'
+def salvar_usuario_api(usuario: Usuario):    # Estamos dizendo que o corpo da requisição deve seguir o modelo Usuario, 'usuario' é um objeto baseado na classe 'Usuario'
 
     banco_de_dados.salvar_usuario(usuario)
 
     return usuario;
-# http://127.0.0.1:8000/docs -> Acessamos o swagger
+
+@app.delete('/usuarios/{id_usuario}')
+def remover_usuario_api(id_usuario: int):
+    banco_de_dados.remover_usuario(id_usuario)
+
+    return {'Mensagem': 'Usuário removido com sucesso.'}
+
+@app.get('/usuarios')
+def listar_usuario_api():
+    
+    usuarios = banco_de_dados.listar_usuarios()
+
+    return usuarios
+
+########################################################################################
