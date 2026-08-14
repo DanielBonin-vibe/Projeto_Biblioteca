@@ -29,9 +29,12 @@ CREATE TABLE IF NOT EXISTS livros(
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS emprestimos(
-    id_emprestimo INTERGER PRIMARY KEY AUTOINCREMENT,
+    id_emprestimo INTERGER PRIMARY KEY,
     id_usuario INTERGER NOT NULL,
-    id_livro INTERGER NOT NULL):
+    id_livro INTERGER NOT NULL,
+
+    FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_livro) REFERENCES livros(id_livro))
     """)
 
 conexao.commit()

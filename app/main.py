@@ -1,25 +1,18 @@
 from fastapi import FastAPI
-from pydantic import BaseModel  # Pydantic serve para validar e estruturar os dados que entram na API
-
+from pydantic import BaseModel
 from utils import banco_de_dados
 
-app = FastAPI()  # Criamos a aplicação FastAPI
- 
-# Vamos mostrar o que o usuário precisa possuir para o JSON
-class Usuario(BaseModel):  # Serve para representar os dados que chegam pela API
+app = FastAPI()    # Cria um objeto da classe 'FastAPI' ;  Esse objeto 'app' sere para registrar rotas, configurações e etc. NEste momento ele está vazio de rotas
+class Usuario(BaseModel): #  Estamos ensinando o modelo básico com Pydentic
     nome: str
     idade: int
     cpf: str
     numero: str
 
-# Agora vamos criar a rota POST
-# POST é um método HTTP, que é 'Criar', faz sentido, já que queremos cadastrar um novo usuário
-@app.post('/usuarios') # Quando fizer uma requisição HTTP 'POST' para '/usuarios', execute a função abaixo. 
-def salvar_usuarios(usuario: Usuario): # 'usuario' deve seguir o 'BaseModel' chamado 'Usuario'
+@app.post('/usuarios')
+def criar_usuario(usuario: Usuario):    # Estamos dizendo que o corpo da requisição deve seguir o modelo Usuario, 'usuario' é um objeto baseado na classe 'Usuario'
+
     banco_de_dados.salvar_usuario(usuario)
 
-    return{
-        'mensagem': 'Usuário salvo com sucesso!'
-    }
-
-# Da onde veio 'usuario'
+    return usuario;
+# http://127.0.0.1:8000/docs -> Acessamos o swagger
