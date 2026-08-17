@@ -49,4 +49,26 @@ while True:
 
         else:
             break
+
+
+    elif opcao_relatorio == 2:
+        opcao_usuario = menu.menu_relatorio_usuario()
+
+        if opcao_usuario == 1:
+            banco_de_dados.relatorio_padrao_usuario()
+
+        elif opcao_usuario == 2:
+            banco_de_dados.relatorio_ordem_alfabetica_usuario()
+
+        elif opcao_usuario == 3:
+            banco_de_dados.relatorio_id_usuario()
+
+        elif opcao_usuario == 4:
+            banco_de_dados.relatorio_usuario_emprestimo()
+
+        elif opcao_usuario == 5:
+            banco_de_dados.relatorio_usuario_sem_emprestimo()
+
+        else:
+            break
         
