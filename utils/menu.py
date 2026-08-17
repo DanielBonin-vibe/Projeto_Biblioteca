@@ -5,7 +5,6 @@ def menu_relatorio(self):
     print()
     print('1 - Relatório de livros')
     print('2 - Relatório usuários')
-    print('3 - Relatório de empréstimos')
     return int(input('Escolha uma opcao: '))
 
 def menu_relatorio_livro(self):
