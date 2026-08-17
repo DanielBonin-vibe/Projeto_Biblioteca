@@ -120,7 +120,9 @@ def listar_emprestimo_api():
 
     return emprestimos
 
-@ap.get('/emprestimos')
-def devolver_emprestimo_api():
+@app.get('/emprestimos/id_emprestimo')
+def devolver_emprestimo_api(id_emprestimo: int):
 
-    banco_de_dados.
+    banco_de_dados.devolver_emprestimo(id_emprestimo)
+
+    return {'Mensagem': 'Livro devolvido com sucesso'}
