@@ -273,11 +273,11 @@ def relatorio_livro_total():
     resultado = cursor.fetchall()
 
     for livro in resultado:
-        print(f'ID: {resultado[0]}')
-        print(f'Título: {resultado[1]}')
-        print(f'Autor: {resultado[2]}')
-        print(f'Ano: {resultado[3]}')
-        print(f'Disponível: {resultado[4]}')
+        print(f'ID: {livro[0]}')
+        print(f'Título: {livro[1]}')
+        print(f'Autor: {livro[2]}')
+        print(f'Ano: {livro[3]}')
+        print(f'Disponível: {livro[4]}')
 
     conexao.close()
 
@@ -293,10 +293,99 @@ def relatorio_livro_ordem_alfabetica():
     resultado = cursor.fetchall()
 
     for livro in resultado:
-        print(f'ID: {resultado[0]}')
-        print(f'Título: {resultado[1]}')
-        print(f'Autor: {resultado[2]}')
-        print(f'Ano: {resultado[3]}')
-        print(f'Disponível: {resultado[4]}')
+        print(f'ID: {livro[0]}')
+        print(f'Título: {livro[1]}')
+        print(f'Autor: {livro[2]}')
+        print(f'Ano: {livro[3]}')
+        print(f'Disponível: {livro[4]}')
 
     conexao.close()
+
+def relatorio_id_livro():
+    conexao = sqlite3.connect('database/biblioteca')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT * FROM livro
+    ORDER BY id_livro ASC
+    """)
+
+    resultado = cursor.fetchall()
+
+    for livro in resultado:
+        print(f'ID: {livro[0]}')
+        print(f'Título: {livro[1]}')
+        print(f'Autor: {livro[2]}')
+        print(f'Ano: {livro[3]}')
+        print(f'Disponível: {livro[4]}')
+
+    conexao.close()
+
+def relatorio_autor_livro():
+    conexao = sqlite3.connect('database/biblioteca')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT * FROM livros
+    ORDER BY autor ASC
+    """)
+
+    resultado = cursor.fetchall()
+
+    for livro in resultado:
+        print(f'Autor: {livro[2]}')
+        print(f'ID: {livro[0]}')
+        print(f'Título: {livro[1]}')
+        print(f'Ano: {livro[3]}')
+        print(f'Disponível: {livro[4]}')
+
+    conexao.close()
+
+def relatorio_disponivel_livro():
+    conexao = sqlite3.connect('database/biblioteca')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT * FROM livros
+    WHERE disponivel = 1
+    ORDER BY id_livro ASC
+    """)
+
+    resultado = cursor.fetchall()
+
+    for livro in resultado:
+        print(f'ID: {livro[0]}')
+        print(f'Título: {livro[1]}')
+        print(f'Autor: {livro[2]}')
+        print(f'Ano: {livro[3]}')
+        print(f'Disponível: {livro[4]}')
+        print('-------------------')
+
+    conexao.close()
+
+def relatorio_indisponivel_livro():
+    conexao = sqlite3.connect('database/biblioteca')
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT * FROM emprestimos
+    WHERE disponivel = 0
+    ORDER BY id_livro ASC
+    """)
+
+    resultado = cursor.fetchall()
+
+    for livro in resultado:
+        print(f'ID: {livro[0]}')
+        print(f'Título: {livro[1]}')
+        print(f'Autor: {livro[2]}')
+        print(f'Ano: {livro[3]}')
+        print(f'Disponível: {livro[4]}')
+        print('-------------------')
+
+    conexao.close()
+
+##############################################################
+# Relatórios Usuários:
+
+# def

@@ -27,21 +27,26 @@ while True:
     opcao_relatorio = menu.menu_relatorio()
 
     if opcao_relatorio == 1:
-        opcao_aluno = menu.menu_relatorio_aluno()
+        opcao_livro = menu.menu_relatorio_livro()
 
-        if opcao_aluno == 1:
-            banco_de_dados.relatorio_aluno_total()
+        if opcao_livro == 1:
+            banco_de_dados.relatorio_livro_total()
 
-        elif opcao_aluno ==  2:
+        elif opcao_livro ==  2:
+            banco_de_dados.relatorio_livro_ordem_alfabetica()
 
+        elif opcao_livro == 3:
+            banco_de_dados.relatorio_id_livro()
 
-            
-#        elif opcao == 3:
-            ...
-#        elif opcao == 4:
-            ...
-#        elif opcao == 5:
-            ...
-#        else:
-#            print('Opção inválida')
+        elif opcao_livro == 4:
+            banco_de_dados.relatorio_autor_livro()
+
+        elif opcao_livro == 5:
+            banco_de_dados.relatorio_disponivel_livro()
+
+        elif opcao_livro == 6:
+            banco_de_dados.relatorio_indisponivel_livro()
+
+        else:
+            break
         

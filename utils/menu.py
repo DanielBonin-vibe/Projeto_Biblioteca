@@ -19,6 +19,7 @@ def menu_relatorio_livro(self):
     print('3 - Relatório por ID')
     print('4 - Relatório por autor')
     print('5 - Relatório por disponibilidade')
+    print('7 - Relatório por indisponibilidade')
     print('6 - Voltar')
     print()
     return int(input('Informe o relatório desejado: '))
