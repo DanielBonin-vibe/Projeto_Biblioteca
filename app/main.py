@@ -73,11 +73,15 @@ def contar_livros_api():
 
     return quantidade
 
+#
+
 @app.get('/livros')
 def filtrar_livro_ano_api():
     filtro = banco_de_dados.filtrar_livro_ano()
 
     return filtro
+
+#
 
 @app.get('/livros')
 def filtrar_livro_ordem_alfabetica_api():
@@ -85,8 +89,38 @@ def filtrar_livro_ordem_alfabetica_api():
 
     return filtro 
 
+#
+
 @app.get('/livros/{nome_pesquisado}')
 def filtrar_encontrar_livro_nome_api(nome_pesquisado: str):
     filtro = banco_de_dados.filtrar_encontrar_livro_nome(nome_pesquisado)
 
     return filtro
+
+##################################################################################################
+class Emprestimo(BaseModel):
+    id_usuario: int
+    id_livro: int
+
+@app.post('/emprestimos')
+def cadastrar_emprestimo_api(emprestimo: Emprestimo):
+
+    banco_de_dados.cadastrar_emprestimos(emprestimo)
+    emprestimo.id_usuario,
+    emprestimo.id_livro
+
+    return emprestimo
+
+#
+
+@app.get('/emprestimos')
+def listar_emprestimo_api():
+
+    emprestimos = banco_de_dados.listar_emprestimos()
+
+    return emprestimos
+
+@ap.get('/emprestimos')
+def devolver_emprestimo_api():
+
+    banco_de_dados.

@@ -215,13 +215,11 @@ def listar_emprestimos():
 
     emprestimos = cursor.fetchall()
 
-    for emprestimo in emprestimos:
-        print(f'Usuário: {emprestimo[0]}')
-        print(f'Livro: {emprestimo[1]}')
-        print('----------------')
-
-    conexao.commit()
     conexao.close()
+
+    return emprestimos
+
+
 
 def devolver_emprestimo(id_emprestimo):
     conexao = sqlite3.connect('database/biblioteca.db')
