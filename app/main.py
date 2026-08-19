@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from utils import banco_de_dados
 from typing import Literal
 
@@ -8,9 +8,9 @@ app = FastAPI()
 #####################################################
 # Usuários:
 class Usuario(BaseModel): 
-    nome: str
-    idade: int
-    cpf: str
+    nome: str = Field(min_lenght=3)
+    idade: int = Field(gt=0)
+    cpf: str = Field(min_lenght=11, max_lenght=11)
     numero: str
 
 @app.post('/usuarios', status_code=201)
@@ -45,9 +45,9 @@ def listar_usuario_api():
 ########################################################################################
 # Livros:
 class Livro(BaseModel):
-    titulo: str
-    autor: str
-    ano: int
+    titulo: str = Field(min_length=1)
+    autor: str = Field(min_length=3)
+    ano: int = Field(gt=0)
     disponivel: Literal[0, 1]
 
 #
@@ -127,7 +127,7 @@ def cadastrar_emprestimo_api(emprestimo: Emprestimo):
 
     if resultado == 0:
         raise HTTPException(
-            status_code=400
+            status_code=400,
             detail='Livro indisponível ou não encontrado.'
         )
 
