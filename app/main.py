@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from utils import banco_de_dados
 from typing import Literal
@@ -6,7 +6,7 @@ from typing import Literal
 app = FastAPI()    
 
 #####################################################
-# Usuário:
+# Usuários:
 class Usuario(BaseModel): 
     nome: str
     idade: int
@@ -24,10 +24,16 @@ def salvar_usuario_api(usuario: Usuario):
 
 @app.delete('/usuarios/{id_usuario}', status_code=204)
 def remover_usuario_api(id_usuario: int):
-    banco_de_dados.remover_usuario(id_usuario)
+
+    quantidade = banco_de_dados.remover_usuario(id_usuario)
+
+    if quantidade == 0:
+        raise HTTPException(
+            status_code=404,
+            detail='usuário não encontrado'
+        )
 
 #
-
 
 @app.get('/usuarios')
 def listar_usuario_api():
@@ -37,7 +43,7 @@ def listar_usuario_api():
     return usuarios
 
 ########################################################################################
-# Livro:
+# Livros:
 class Livro(BaseModel):
     titulo: str
     autor: str
@@ -57,8 +63,14 @@ def cadastrar_livro_api(livro: Livro):
 
 @app.delete('/livros/{id_livro}', status_code=204)
 def apagar_livro_api(id_livro: int):
-    banco_de_dados.apagar_livro(id_livro)
 
+    resultado = banco_de_dados.apagar_livro(id_livro)
+
+    if resultado == 0:
+        raise HTTPException(
+            status_code=404,
+            detail='Livro não encontrado'
+        )
 
 #
 
@@ -103,7 +115,7 @@ def filtrar_encontrar_livro_nome_api(nome_pesquisado: str):
     return filtro
 
 ##################################################################################################
-# Empréstimo
+# Empréstimos:
 class Emprestimo(BaseModel):
     id_usuario: int
     id_livro: int
@@ -111,9 +123,13 @@ class Emprestimo(BaseModel):
 @app.post('/emprestimos', status_code=201)
 def cadastrar_emprestimo_api(emprestimo: Emprestimo):
 
-    banco_de_dados.cadastrar_emprestimos(emprestimo)
-    emprestimo.id_usuario,
-    emprestimo.id_livro
+    resultado = banco_de_dados.cadastrar_emprestimos(emprestimo.id_usuario, emprestimo.id_livro)
+
+    if resultado == 0:
+        raise HTTPException(
+            status_code=400
+            detail='Livro indisponível ou não encontrado.'
+        )
 
     return emprestimo
 
@@ -126,9 +142,17 @@ def listar_emprestimo_api():
 
     return emprestimos
 
+#
+
 @app.put('/emprestimos/devolver{id_emprestimo}')
 def devolver_emprestimo_api(id_emprestimo: int):
 
-    banco_de_dados.devolver_emprestimo(id_emprestimo)
+    resultado = banco_de_dados.devolver_emprestimo(id_emprestimo)
 
-    return {'Mensagem': 'Livro devolvido com sucesso'}
+    if resultado == 0:
+        raise HTTPException(
+            status_code=404,
+            detail='Empréstimo não encontrado.'
+        )
+
+    return {'Mensagem': 'Livro devolvido com sucesso.'}

@@ -63,8 +63,12 @@ def remover_usuario(usuario):
     WHERE id_usuario = ?
     """,(usuario,))
 
+    quantidade = cursor.rowcount
+
     conexao.commit()
     conexao.close()
+
+    return quantidade
 
 def listar_usuarios():
     conexao = sqlite3.connect('database/biblioteca.db')
@@ -101,10 +105,13 @@ def apagar_livro(livro):
         DELETE FROM livros
         WHERE id_livro = ?
         """,(livro,))
-    
 
+    resultado = cursor.rowcount
+    
     conexao.commit()
     conexao.close()
+
+    return resultado
 
 def pecorrer_livros():
     conexao = sqlite3.connect('database/biblioteca.db')
@@ -188,7 +195,22 @@ def cadastrar_emprestimo(id_usuario, id_livro):
     cursor = conexao.cursor()
 
     cursor.execute("""
-    INSERT INTO emprestimos (id_usuario, id_livro)
+    SELECT disponivel FROM livros
+    WHERE id_livro = ?
+    """)
+
+    livro = cursor.fetchone()
+
+    if livro is None:
+        conexao.close()
+        return 0
+
+    if livro[0] == 0:
+        conexao.close()
+        return 0
+
+    cursor.execute("""
+    INSERT (id_usuario, id_livro) INTO emprestimos
     VALUES (?, ?)
     """, (id_usuario, id_livro))
 
@@ -197,10 +219,11 @@ def cadastrar_emprestimo(id_usuario, id_livro):
         SET disponivel = 0
         WHERE id_livro = ?
     """, (id_livro,))
-    # Aqui fazemos que ao ser emprestado, o valor se torne 0
 
     conexao.commit()
     conexao.close()
+
+    return 1
 
 def listar_emprestimos():
     conexao = sqlite3.connect('database/biblioteca.db')
@@ -219,7 +242,7 @@ def listar_emprestimos():
 
     return emprestimos
 
-
+#
 
 def devolver_emprestimo(id_emprestimo):
     conexao = sqlite3.connect('database/biblioteca.db')
@@ -229,12 +252,14 @@ def devolver_emprestimo(id_emprestimo):
     SELECT id_livro FROM emprestimos
     WHERE id_emprestimo = ?
     """, (id_emprestimo,))
-    # Estamos descobrindo qual livro pertence áqeuele empréstimo
 
-    emprestimo = cursor.fetchall()
+    emprestimo = cursor.fetchone()
 
-    if emprestimo:
-        id_livro = emprestimo[0]
+    if emprestimo is None:
+        conexao.close()
+        return 0 
+
+    id_livro = emprestimo[0]
 
     cursor.execute("""
     UPDATE livros
@@ -252,6 +277,8 @@ def devolver_emprestimo(id_emprestimo):
     conexao.commit()
     conexao.close()
 
+    return 1
+    
 #####################################################################
 # Relatórios livro:
 
