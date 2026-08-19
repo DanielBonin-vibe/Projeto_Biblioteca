@@ -13,18 +13,21 @@ class Usuario(BaseModel):
     cpf: str
     numero: str
 
-@app.post('/usuarios')
+@app.post('/usuarios', status_code=201)
 def salvar_usuario_api(usuario: Usuario):    
 
     banco_de_dados.salvar_usuario(usuario)
 
     return usuario
 
-@app.delete('/usuarios/{id_usuario}')
+#
+
+@app.delete('/usuarios/{id_usuario}', status_code=204)
 def remover_usuario_api(id_usuario: int):
     banco_de_dados.remover_usuario(id_usuario)
 
-    return {'Mensagem': 'Usuário removido com sucesso.'}
+#
+
 
 @app.get('/usuarios')
 def listar_usuario_api():
@@ -43,7 +46,7 @@ class Livro(BaseModel):
 
 #
 
-@app.post('/livros')
+@app.post('/livros', status_code=201)
 def cadastrar_livro_api(livro: Livro):
 
     banco_de_dados.cadastrar_livro(livro)
@@ -52,11 +55,10 @@ def cadastrar_livro_api(livro: Livro):
 
 #
 
-@app.delete('/livros/{id_livro}')
+@app.delete('/livros/{id_livro}', status_code=204)
 def apagar_livro_api(id_livro: int):
     banco_de_dados.apagar_livro(id_livro)
 
-    return {'mensagem': 'Livro removido com sucesso.'}
 
 #
 
@@ -106,7 +108,7 @@ class Emprestimo(BaseModel):
     id_usuario: int
     id_livro: int
 
-@app.post('/emprestimos')
+@app.post('/emprestimos', status_code=201)
 def cadastrar_emprestimo_api(emprestimo: Emprestimo):
 
     banco_de_dados.cadastrar_emprestimos(emprestimo)
