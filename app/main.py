@@ -3,15 +3,18 @@ from pydantic import BaseModel
 from utils import banco_de_dados
 from typing import Literal
 
-app = FastAPI()    # Cria um objeto da classe 'FastAPI' ;  Esse objeto 'app' sere para registrar rotas, configurações e etc. NEste momento ele está vazio de rotas
-class Usuario(BaseModel): #  Estamos ensinando o modelo básico com Pydentic
+app = FastAPI()    
+
+#####################################################
+# Usuário:
+class Usuario(BaseModel): 
     nome: str
     idade: int
     cpf: str
     numero: str
 
 @app.post('/usuarios')
-def salvar_usuario_api(usuario: Usuario):    # Estamos dizendo que o corpo da requisição deve seguir o modelo Usuario, 'usuario' é um objeto baseado na classe 'Usuario'
+def salvar_usuario_api(usuario: Usuario):    
 
     banco_de_dados.salvar_usuario(usuario)
 
@@ -31,12 +34,12 @@ def listar_usuario_api():
     return usuarios
 
 ########################################################################################
-
+# Livro:
 class Livro(BaseModel):
     titulo: str
     autor: str
     ano: int
-    disponivel: Literal[0, 1]   # Só aceita 0 e 1, sendo 0 indisponível e 1 disponível
+    disponivel: Literal[0, 1]
 
 #
 
@@ -53,7 +56,7 @@ def cadastrar_livro_api(livro: Livro):
 def apagar_livro_api(id_livro: int):
     banco_de_dados.apagar_livro(id_livro)
 
-    return {'mensagem': 'Usuário removido com sucesso.'}
+    return {'mensagem': 'Livro removido com sucesso.'}
 
 #
 
@@ -66,7 +69,7 @@ def pecorrer_livros_api():
 
 #
 
-@app.get('/livros')
+@app.get('/livros/quantidade')
 def contar_livros_api():
 
     quantidade = banco_de_dados.contar_livros()
@@ -75,7 +78,7 @@ def contar_livros_api():
 
 #
 
-@app.get('/livros')
+@app.get('/livros/por-ano')
 def filtrar_livro_ano_api():
     filtro = banco_de_dados.filtrar_livro_ano()
 
@@ -83,7 +86,7 @@ def filtrar_livro_ano_api():
 
 #
 
-@app.get('/livros')
+@app.get('/livros/ordem-alfabetica')
 def filtrar_livro_ordem_alfabetica_api():
     filtro = banco_de_dados.filtrar_livro_ordem_alfabetica()
 
@@ -91,13 +94,14 @@ def filtrar_livro_ordem_alfabetica_api():
 
 #
 
-@app.get('/livros/{nome_pesquisado}')
+@app.get('/livros/pesquisa/{nome_pesquisado}')
 def filtrar_encontrar_livro_nome_api(nome_pesquisado: str):
     filtro = banco_de_dados.filtrar_encontrar_livro_nome(nome_pesquisado)
 
     return filtro
 
 ##################################################################################################
+# Empréstimo
 class Emprestimo(BaseModel):
     id_usuario: int
     id_livro: int
@@ -120,7 +124,7 @@ def listar_emprestimo_api():
 
     return emprestimos
 
-@app.get('/emprestimos/id_emprestimo')
+@app.put('/emprestimos/devolver{id_emprestimo}')
 def devolver_emprestimo_api(id_emprestimo: int):
 
     banco_de_dados.devolver_emprestimo(id_emprestimo)
