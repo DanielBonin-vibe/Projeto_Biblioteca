@@ -1,44 +1,4 @@
-############################################################
-# Criação das tabelas
-import sqlite3
 
-conexao = sqlite3.connect('database/biblioteca.db')
-print('Conectado')
-
-cursor = conexao.cursor()
-
-cursor.execute(
-    """
-CREATE TABLE IF NOT EXISTS usuarios(
-    id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    idade INTEGER NOT NULL,
-    cpf TEXT NOT NULL,
-    numero TEXT NOT NULL)
-    """)
-
-cursor.execute(
-    """
-CREATE TABLE IF NOT EXISTS livros(
-    id_livro INTEGER PRIMARY KEY AUTOINCREMENT,
-    titulo TEXT NOT NULL,
-    autor TEXT NOT NULL,
-    ano INTERGER NOT NULL,
-    disponivel INTERGER NOT NULL DEFAULT 1)
-    """) 
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS emprestimos(
-    id_emprestimo INTERGER PRIMARY KEY,
-    id_usuario INTERGER NOT NULL,
-    id_livro INTERGER NOT NULL,
-
-    FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (id_livro) REFERENCES livros(id_livro))
-    """)
-
-conexao.commit()
-conexao.close()
 ######################################################
 
 # Salvar usuários:
