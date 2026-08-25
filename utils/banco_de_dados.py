@@ -35,7 +35,7 @@ def remover_usuario(usuario):
     return quantidade
 
 def listar_usuarios():
-    conexao =  conectar()
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -171,23 +171,26 @@ def cadastrar_emprestimo(id_usuario, id_livro):
     cursor = conexao.cursor()
 
     cursor.execute("""
-    SELECT disponivel FROM livros
-    WHERE id_livro = %s
-    """)
+        SELECT id_livro, titulo, autor, ano, disponivel
+        FROM livros
+        WHERE id_livro = %s
+    """, (id_livro,))
 
     livro = cursor.fetchone()
 
     if livro is None:
+        cursor.close()
         conexao.close()
-        return 0
+        return None
 
-    if livro[0] == 0:
+    if not livro[4]:
+        cursor.close()
         conexao.close()
-        return 0
+        return None
 
     cursor.execute("""
-    INSERT (id_usuario, id_livro) INTO emprestimos
-    VALUES (%s, %s)
+        INSERT INTO emprestimos (id_usuario, id_livro)
+        VALUES (%s, %s)
     """, (id_usuario, id_livro))
 
     cursor.execute("""
@@ -197,10 +200,19 @@ def cadastrar_emprestimo(id_usuario, id_livro):
     """, (id_livro,))
 
     conexao.commit()
+
+    cursor.execute("""
+        SELECT id_livro, titulo, autor, ano, disponivel
+        FROM livros
+        WHERE id_livro = %s
+    """, (id_livro,))
+
+    livro_emprestado = cursor.fetchone()
+
     cursor.close()
     conexao.close()
 
-    return 1
+    return livro_emprestado
 
 def listar_emprestimos():
     conexao = conectar()
@@ -210,6 +222,7 @@ def listar_emprestimos():
     SELECT usuarios.nome, livros.titulo FROM emprestimos 
     JOIN usuarios
         ON emprestimos.id_usuario = usuarios.id_usuario 
+    JOIN livros
         ON emprestimos.id_livro = livros.id_livro
     """)
 
@@ -220,7 +233,7 @@ def listar_emprestimos():
 
     return emprestimos
 
-def devolver_emprestimo(id_emprestimo):
+def devolver_emprestimo(id_emprestimo, id_livro):
     conexao = conectar()
     cursor = conexao.cursor()
 
@@ -246,7 +259,7 @@ def devolver_emprestimo(id_emprestimo):
     cursor.execute("""
         DELETE FROM emprestimos
         WHERE id_emprestimo = %s
-    """, (id_emprestimo))
+    """, (id_emprestimo,))
 
     conexao.commit()
     cursor.close()

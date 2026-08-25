@@ -1,5 +1,52 @@
+def menu_principal():
+    print('=' * 50)
+    print(' ' * 14, 'Sistema De Biblioteca', ' ' * 20)
+    print('=' * 50)
+    print()
+    print('1 - Livros')
+    print('2 - Usuários')
+    print('3 - Empréstimos')
+    print('4 - Pesquisar')
+    print('5 - Relatórios')
+    print('0 - Sair')
+    print()
+    return int(input('Digite a seleção: '))
 
-def menu_relatorio(self):
+def menu_livros():
+    print()
+    print('1 - Cadastrar livro')
+    print('2 - Remover livro')
+    print('3 - Listar livros')
+    print('0 - Voltar')
+    print()
+    return int(input('Digite a seleção: '))
+
+def menu_usuarios():
+    print()
+    print('1 - Criar usuário')
+    print('2 - Remover usuário')
+    print('3 - Listar usuários')
+    print()
+    return int(input('Digite a seleção: '))
+
+def menu_acoes():
+    print()
+    print('1 - Emprestar livro')
+    print('2 - Listar empréstimos')
+    print('3 - Devolver livro')
+    print('0 - Voltar')
+    print()
+    return int(input('Digite a ação requerida: '))
+
+def barra_pesquisa():
+    print()
+    print('1 - Descobrir nossa biblioteca por ano')
+    print('2 - Descobrir nossa biblioteca por ordem alfabética')
+    print('3 - Pesquisar pelo nome')
+    print()
+    return int(input('Informe a ação requerida: '))
+
+def menu_relatorio():
     print()
     print('=' * 20, 'RELATÓRIOS', '=' * 20)
     print()
@@ -7,7 +54,7 @@ def menu_relatorio(self):
     print('2 - Relatório usuários')
     return int(input('Escolha uma opcao: '))
 
-def menu_relatorio_livro(self):
+def menu_relatorio_livro():
     print()
     print('=' * 20, 'RELATÓRIOS LIVRO', '=' * 20)
     print()
@@ -21,7 +68,7 @@ def menu_relatorio_livro(self):
     print()
     return int(input('Informe o relatório desejado: '))
 
-def menu_relatorio_usuario(self):
+def menu_relatorio_usuario():
     print()
     print('=' * 20, 'RELATÓRIOS USUÁRIO', '=' * 20)
     print()

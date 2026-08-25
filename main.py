@@ -1,15 +1,16 @@
 from models.livro import Livro
 from models.usuario import Usuario
 from models.biblioteca import Biblioteca
-from Projeto_Biblioteca.relatorios import relatorios
-biblioteca = Biblioteca()   # Criamos o objeto Biblioteca
+from relatorios import relatorios
+from utils import menu, banco_de_dados
+biblioteca = Biblioteca()
 
 while True:
 
-    opcao_inicial = biblioteca.menu_principal()
+    opcao_inicial = menu.menu_principal()
 
     if opcao_inicial == 1:
-        opcao_livro = biblioteca.menu_livros() 
+        opcao_livro = menu.menu_livros() 
 
         if opcao_livro == 1:
             titulo = input('Informe o título do livro: ')
@@ -28,7 +29,7 @@ while True:
 ###########################
     elif opcao_inicial == 2:
 
-        opcao_usuarios = biblioteca.menu_usuarios()
+        opcao_usuarios = menu.menu_usuarios()
 
         if opcao_usuarios == 1:
             nome_usuario = input('Digite o nome do cidadão a ser cadastrado: ')
@@ -49,7 +50,7 @@ while True:
 ################################
 
     elif opcao_inicial == 3:
-        opcao_acoes = biblioteca.menu_acoes()
+        opcao_acoes = menu.menu_acoes()
 
         if opcao_acoes == 1:
             biblioteca.emprestar_livro()
@@ -59,17 +60,19 @@ while True:
 
         elif opcao_acoes == 3:
             id_emprestimo = int(input('Digite o ID do empréstimo: '))
-            biblioteca.devolver_emprestimo(id_emprestimo)
+            id_livro = int(input('Digite o ID do livro: '))
+            biblioteca.devolver_emprestimo(id_emprestimo, id_livro)
 
 #######################
 
     elif opcao_inicial == 4:
-        opcao_pesquisa = biblioteca.barra_pesquisa()
+        opcao_pesquisa = menu.barra_pesquisa()
+
         if opcao_pesquisa == 1:
             biblioteca.filtro_ano()
 
         elif opcao_pesquisa == 2:
-            biblioteca.filtro_ordem_alfabetica
+            biblioteca.filtro_ordem_alfabetica()
 
         elif opcao_pesquisa == 3:
             nome_pesquisado = input('Informe uma tentativa do nome')
@@ -78,10 +81,11 @@ while True:
 #################################################################################################################
 
     elif opcao_inicial == 5:
+
         acesso = relatorios.menu_senha_relatorio()
 
         if acesso:
-            relatorios.menu_relatorio()
+            relatorios.executar_relatorio()
 
 ###################################################################################################
 
