@@ -116,7 +116,7 @@ def contar_livros():
 # Filtros:
 
 def filtrar_livro_ano():
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -127,12 +127,13 @@ def filtrar_livro_ano():
 
     filtro = cursor.fetchall()
 
+    cursor.close()
     conexao.close()
 
     return filtro 
 
 def filtrar_livro_ordem_alfabetica():
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -142,34 +143,36 @@ def filtrar_livro_ordem_alfabetica():
 
     filtro = cursor.fetchall()
 
+    cursor.close()
     conexao.close()
 
     return filtro
 
 def filtrar_encontrar_livro_nome(nome_pesquisado):
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     SELECT * FROM livros
-    WHERE nome LIKE  ?
+    WHERE nome LIKE %s
     """, (f'%{nome_pesquisado}%',)
     )
 
     filtro = cursor.fetchall()
 
+    cursor.close()
     conexao.close()
 
     return filtro
 
 ####################################################################################
 def cadastrar_emprestimo(id_usuario, id_livro):
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     SELECT disponivel FROM livros
-    WHERE id_livro = ?
+    WHERE id_livro = %s
     """)
 
     livro = cursor.fetchone()
@@ -184,46 +187,46 @@ def cadastrar_emprestimo(id_usuario, id_livro):
 
     cursor.execute("""
     INSERT (id_usuario, id_livro) INTO emprestimos
-    VALUES (?, ?)
+    VALUES (%s, %s)
     """, (id_usuario, id_livro))
 
     cursor.execute("""
         UPDATE livros
-        SET disponivel = 0
-        WHERE id_livro = ?
+        SET disponivel = FALSE
+        WHERE id_livro = %s
     """, (id_livro,))
 
     conexao.commit()
+    cursor.close()
     conexao.close()
 
     return 1
 
 def listar_emprestimos():
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     SELECT usuarios.nome, livros.titulo FROM emprestimos 
-    INNER JOIN usuarios
+    JOIN usuarios
         ON emprestimos.id_usuario = usuarios.id_usuario 
         ON emprestimos.id_livro = livros.id_livro
     """)
 
     emprestimos = cursor.fetchall()
 
+    cursor.close()
     conexao.close()
 
     return emprestimos
 
-#
-
 def devolver_emprestimo(id_emprestimo):
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     SELECT id_livro FROM emprestimos
-    WHERE id_emprestimo = ?
+    WHERE id_emprestimo = %s
     """, (id_emprestimo,))
 
     emprestimo = cursor.fetchone()
@@ -236,18 +239,17 @@ def devolver_emprestimo(id_emprestimo):
 
     cursor.execute("""
     UPDATE livros
-    SET disponivel = 1
-    WHERE id_livro = ?
+    SET disponivel = TRUE
+    WHERE id_livro = %s
     """, (id_livro,))
-    # Marcamos o livro como disponível
 
     cursor.execute("""
         DELETE FROM emprestimos
-        WHERE id_emprestimo = ?
+        WHERE id_emprestimo = %s
     """, (id_emprestimo))
-    # retiramos o empréstimo da tabela
 
     conexao.commit()
+    cursor.close()
     conexao.close()
 
     return 1
@@ -256,18 +258,18 @@ def devolver_emprestimo(id_emprestimo):
 # Relatórios livro:
 
 def relatorio_livro_total():
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
-    SELECT COUNT(*) FROM livro
+    SELECT COUNT(*) FROM livros
     """)
 
     contagem = cursor.fetchone()
     print(f'O total de livros cadastrados é: {contagem}')
 
     cursor.execute("""
-    SELECT * FROM livro
+    SELECT * FROM livros
     """)
 
     resultado = cursor.fetchall()
@@ -279,14 +281,17 @@ def relatorio_livro_total():
         print(f'Ano: {livro[3]}')
         print(f'Disponível: {livro[4]}')
 
+    cursor.close()
     conexao.close()
 
+    return resultado
+
 def relatorio_livro_ordem_alfabetica():
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
-    SELECT * FROM livro
+    SELECT * FROM livros
     ORDER BY titulo ASC
     """)
 
@@ -299,14 +304,17 @@ def relatorio_livro_ordem_alfabetica():
         print(f'Ano: {livro[3]}')
         print(f'Disponível: {livro[4]}')
 
+    cursor.close()
     conexao.close()
 
+    return resultado
+
 def relatorio_id_livro():
-    conexao = sqlite3.connect('database/biblioteca')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
-    SELECT * FROM livro
+    SELECT * FROM livros
     ORDER BY id_livro ASC
     """)
 
@@ -319,10 +327,13 @@ def relatorio_id_livro():
         print(f'Ano: {livro[3]}')
         print(f'Disponível: {livro[4]}')
 
+    cursor.close()
     conexao.close()
 
+    return resultado
+
 def relatorio_autor_livro():
-    conexao = sqlite3.connect('database/biblioteca')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -339,15 +350,18 @@ def relatorio_autor_livro():
         print(f'Ano: {livro[3]}')
         print(f'Disponível: {livro[4]}')
 
+    cursor.close()
     conexao.close()
 
+    return resultado
+
 def relatorio_disponivel_livro():
-    conexao = sqlite3.connect('database/biblioteca')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     SELECT * FROM livros
-    WHERE disponivel = 1
+    WHERE disponivel = TRUE
     ORDER BY id_livro ASC
     """)
 
@@ -361,15 +375,18 @@ def relatorio_disponivel_livro():
         print(f'Disponível: {livro[4]}')
         print('-------------------')
 
+    cursor.close()
     conexao.close()
 
+    return resultado
+
 def relatorio_indisponivel_livro():
-    conexao = sqlite3.connect('database/biblioteca')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     SELECT * FROM emprestimos
-    WHERE disponivel = 0
+    WHERE disponivel = FALSE
     ORDER BY id_livro ASC
     """)
 
@@ -383,7 +400,10 @@ def relatorio_indisponivel_livro():
         print(f'Disponível: {livro[4]}')
         print('-------------------')
 
+    cursor.close()
     conexao.close()
+
+    return resultado
 
 ##############################################################
 # Relatórios Usuários:
