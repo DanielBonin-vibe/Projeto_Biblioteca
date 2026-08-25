@@ -165,53 +165,58 @@ def filtrar_encontrar_livro_nome(nome_pesquisado):
     return filtro
 
 ####################################################################################
+# Empréstimos:
+
 def cadastrar_emprestimo(id_usuario, id_livro):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execute("""
-        SELECT id_livro, titulo, autor, ano, disponivel
-        FROM livros
-        WHERE id_livro = %s
-    """, (id_livro,))
+    try:
+        cursor.execute("""
+            SELECT id_livro, titulo, autor, ano, disponivel
+            FROM livros
+            WHERE id_livro = %s
+        """, (id_livro,))
 
-    livro = cursor.fetchone()
+        livro = cursor.fetchone()
 
-    if livro is None:
-        cursor.close()
-        conexao.close()
+        if livro is None:
+            return None
+
+        if not livro[4]:
+            return None
+
+        cursor.execute("""
+            INSERT INTO emprestimos (id_usuario, id_livro)
+            VALUES (%s, %s)
+        """, (id_usuario, id_livro))
+
+        cursor.execute("""
+            UPDATE livros
+            SET disponivel = FALSE
+            WHERE id_livro = %s
+        """, (id_livro,))
+
+        cursor.execute("""
+            SELECT id_livro, titulo, autor, ano, disponivel
+            FROM livros
+            WHERE id_livro = %s
+        """, (id_livro,))
+
+        livro_emprestado = cursor.fetchone()
+
+        conexao.commit()
+
+        return livro_emprestado
+
+    except Exception as erro:
+        conexao.roolback()
+        print(f'Erro ao cadastrar empréstimo: {erro}')
         return None
 
-    if not livro[4]:
+    finally:
         cursor.close()
         conexao.close()
-        return None
-
-    cursor.execute("""
-        INSERT INTO emprestimos (id_usuario, id_livro)
-        VALUES (%s, %s)
-    """, (id_usuario, id_livro))
-
-    cursor.execute("""
-        UPDATE livros
-        SET disponivel = FALSE
-        WHERE id_livro = %s
-    """, (id_livro,))
-
-    conexao.commit()
-
-    cursor.execute("""
-        SELECT id_livro, titulo, autor, ano, disponivel
-        FROM livros
-        WHERE id_livro = %s
-    """, (id_livro,))
-
-    livro_emprestado = cursor.fetchone()
-
-    cursor.close()
-    conexao.close()
-
-    return livro_emprestado
 
 def listar_emprestimos():
     conexao = conectar()
@@ -232,39 +237,46 @@ def listar_emprestimos():
 
     return emprestimos
 
-def devolver_emprestimo(id_emprestimo, id_livro):
+def devolver_emprestimo(id_emprestimo):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execute("""
-    SELECT id_livro FROM emprestimos
-    WHERE id_emprestimo = %s
-    """, (id_emprestimo,))
-
-    emprestimo = cursor.fetchone()
-
-    if emprestimo is None:
-        conexao.close()
-        return 0 
-
-    id_livro = emprestimo[0]
-
-    cursor.execute("""
-    UPDATE livros
-    SET disponivel = TRUE
-    WHERE id_livro = %s
-    """, (id_livro,))
-
-    cursor.execute("""
-        DELETE FROM emprestimos
+    try:
+        cursor.execute("""
+        SELECT id_livro FROM emprestimos
         WHERE id_emprestimo = %s
-    """, (id_emprestimo,))
+        """, (id_emprestimo,))
 
-    conexao.commit()
-    cursor.close()
-    conexao.close()
+        emprestimo = cursor.fetchone()
 
-    return 1
+        if emprestimo is None:
+            return None 
+
+        id_livro = emprestimo[0]
+
+        cursor.execute("""
+        UPDATE livros
+        SET disponivel = TRUE
+        WHERE id_livro = %s
+        """, (id_livro,))
+
+        cursor.execute("""
+            DELETE FROM emprestimos
+            WHERE id_emprestimo = %s
+        """, (id_emprestimo,))
+
+        conexao.commit()
+
+        return id_livro
+
+    except Exception as erro:
+        conexao.roolback()
+        print(f"Erro ao devolver empréstimo: {erro}")
+        return None
+
+    finally:
+        cursor.close()
+        conexao.close()
     
 #####################################################################
 # Relatórios livro:

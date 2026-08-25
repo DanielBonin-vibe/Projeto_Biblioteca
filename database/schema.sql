@@ -18,6 +18,9 @@ CREATE TABLE IF NOT EXISTS emprestimos(
     id_emprestimo INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_usario INTEGER NOT NULL,
     id_livro INTEGER NOT NULL,
+    data_emprestimo TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_devolucao TIMESTAMP,
+    status VARCHAR(20) NOT NULL DEFAULT'ativo',
 
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
     FOREIGN KEY(id_livro) REFERENCES livros(id_livro)
