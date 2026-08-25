@@ -1,37 +1,41 @@
-
+from database.conexao_postgre import conectar
 ######################################################
 
 # Salvar usuários:
 def salvar_usuario(usuario):
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     INSERT INTO usuarios(nome, idade, cpf, numero)
-    VALUES(?, ?, ?, ?) 
+    VALUES(%s, %s, %s, %s) 
     """,(usuario.nome, usuario.idade, usuario.cpf, usuario.numero))
 
     conexao.commit()
+    cursor.close()
     conexao.close()
 
+    return {'Mensagem': 'Usuário cadastrado'}
+
 def remover_usuario(usuario):
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     DELETE FROM usuarios
-    WHERE id_usuario = ?
+    WHERE id_usuario = %s
     """,(usuario,))
 
     quantidade = cursor.rowcount
 
     conexao.commit()
+    cursor.close()
     conexao.close()
 
     return quantidade
 
 def listar_usuarios():
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao =  conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -39,62 +43,71 @@ def listar_usuarios():
     """)
 
     usuarios = cursor.fetchall()
-    
+
+    cursor.close()
     conexao.close()
 
     return usuarios
 
 def cadastrar_livro(livro):
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     INSERT INTO livros(titulo, autor, ano, disponivel)
-    VALUES(?, ?, ?, ?)
+    VALUES(%s, %s, %s, %s)
     """, (livro.titulo, livro.autor, livro.ano, livro.disponivel))
 
     conexao.commit()
+    cursor.close()
     conexao.close()
 
+    return {'Mensagem': 'Livro cadastrado'}
+
 def apagar_livro(livro):
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute(
         """
         DELETE FROM livros
-        WHERE id_livro = ?
+        WHERE id_livro = %s
         """,(livro,))
 
     resultado = cursor.rowcount
     
     conexao.commit()
+    cursor.close()
     conexao.close()
 
     return resultado
 
 def pecorrer_livros():
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execute(""" SELECT * FROM livros""")
+    cursor.execute("""
+    SELECT * FROM livros
+    """)
 
     livros = cursor.fetchall()
 
-    return livros
-
+    cursor.close()
     conexao.close()
 
+    return livros
+
 def contar_livros():
-    conexao = sqlite3.connect('database/biblioteca.db')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     SELECT COUNT(*) FROM livros
     """)
 
-    quantidade = cursor.fetchall()[0]   # O COUNT retorna apenas uma linha, é vital colcoar o fetchall()[0]
+    quantidade = cursor.fetchall()[0]
 
+    cursor.close()
     conexao.close()
 
     return {'Quantidade': quantidade}
