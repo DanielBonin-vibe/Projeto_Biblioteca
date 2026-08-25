@@ -223,11 +223,13 @@ def listar_emprestimos():
     cursor = conexao.cursor()
 
     cursor.execute("""
-    SELECT usuarios.nome, livros.titulo FROM emprestimos 
+    SELECT emprestimos.id_emprestimo, emprestimos.data_emprestimo, usuarios.nome, livros.titulo FROM emprestimos 
     JOIN usuarios
         ON emprestimos.id_usuario = usuarios.id_usuario 
     JOIN livros
         ON emprestimos.id_livro = livros.id_livro
+    WHERE emprestimos.status = 'ativo'
+    ORDER BY emprestimos.id_emprestimo ASC
     """)
 
     emprestimos = cursor.fetchall()
