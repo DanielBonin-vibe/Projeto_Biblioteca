@@ -245,6 +245,7 @@ def devolver_emprestimo(id_emprestimo):
         cursor.execute("""
         SELECT id_livro FROM emprestimos
         WHERE id_emprestimo = %s
+            AND status = 'ativo'
         """, (id_emprestimo,))
 
         emprestimo = cursor.fetchone()
@@ -261,7 +262,9 @@ def devolver_emprestimo(id_emprestimo):
         """, (id_livro,))
 
         cursor.execute("""
-            DELETE FROM emprestimos
+            UPDATE emprestimos
+            SET status = 'devolvido',
+                data_devolucao = CURRENT_TIMESTAMP
             WHERE id_emprestimo = %s
         """, (id_emprestimo,))
 
