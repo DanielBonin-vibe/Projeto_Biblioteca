@@ -120,9 +120,8 @@ def filtrar_livro_ano():
     cursor = conexao.cursor()
 
     cursor.execute("""
-        SELECT ano, COUNT(*) FROM livros
-        GROUP BY ano
-        ORDER BY ano;
+        SELECT * FROM livros
+        ORDER BY ano DESC;
     """)
 
     filtro = cursor.fetchall()
@@ -138,7 +137,7 @@ def filtrar_livro_ordem_alfabetica():
 
     cursor.execute("""
     SELECT * FROM livros 
-    ORDER BY nome ASC
+    ORDER BY titulo ASC
     """)
 
     filtro = cursor.fetchall()
@@ -154,7 +153,7 @@ def filtrar_encontrar_livro_nome(nome_pesquisado):
 
     cursor.execute("""
     SELECT * FROM livros
-    WHERE nome LIKE %s
+    WHERE titulo LIKE %s
     """, (f'%{nome_pesquisado}%',)
     )
 
@@ -398,7 +397,7 @@ def relatorio_indisponivel_livro():
     cursor = conexao.cursor()
 
     cursor.execute("""
-    SELECT * FROM emprestimos
+    SELECT * FROM livros
     WHERE disponivel = FALSE
     ORDER BY id_livro ASC
     """)
@@ -454,6 +453,13 @@ def relatorio_ordem_alfabetica_usuario():
 
     resultado = cursor.fetchall()
 
+    for usuario in resultado:
+        print(f'ID: {usuario[0]}')
+        print(f'NOME: {usuario[1]}')
+        print(f'IDADE: {usuario[2]}')
+        print(f'CPF: {usuario[3]}')
+        print(f'NÙMERO: {usuario[4]}')
+
     cursor.close()
     conexao.close()
 
@@ -463,7 +469,7 @@ def relatorio_id_usuario():
     conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execut("""
+    cursor.execute("""
     SELECT * FROM usuarios
     ORDER BY id_usuario ASC
     """)

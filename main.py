@@ -75,7 +75,7 @@ while True:
             biblioteca.filtro_ordem_alfabetica()
 
         elif opcao_pesquisa == 3:
-            nome_pesquisado = input('Informe uma tentativa do nome')
+            nome_pesquisado = input('Informe uma tentativa do nome: ')
             biblioteca.filtro_encontrar_pelo_nome(nome_pesquisado)
         
 #################################################################################################################

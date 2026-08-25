@@ -43,13 +43,16 @@ class Biblioteca:
 # Barra de pesquisa:
 
     def filtro_ano(self):
-        banco_de_dados.filtrar__livro_ano()
+        filtros = banco_de_dados.filtrar_livro_ano()
+        print(filtros)
 
     def filtro_ordem_alfabetica(self):
-        banco_de_dados.filtrar_livro_ordem_alfabetica()
+        filtros = banco_de_dados.filtrar_livro_ordem_alfabetica()
+        print(filtros)
 
     def filtro_encontrar_pelo_nome(self, nome_pesquisado):
-        banco_de_dados.filtrar_encontrar_livro_nome(nome_pesquisado)
+        filtros = banco_de_dados.filtrar_encontrar_livro_nome(nome_pesquisado)
+        print(filtros)
 
 ################## AÇÕES ##########################
 
