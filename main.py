@@ -1,7 +1,7 @@
 from models.livro import Livro
 from models.usuario import Usuario
 from models.biblioteca import Biblioteca
-from utils import relatorios
+from Projeto_Biblioteca.relatorios import relatorios
 biblioteca = Biblioteca()   # Criamos o objeto Biblioteca
 
 while True:
