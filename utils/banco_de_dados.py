@@ -409,7 +409,7 @@ def relatorio_indisponivel_livro():
 # Relatórios Usuários:
 
 def relatorio_padrao_usuario():
-    conexao = sqlite3.connect('database/biblioteca')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -423,12 +423,15 @@ def relatorio_padrao_usuario():
         print(f'NOME: {usuario[1]}')
         print(f'IDADE: {usuario[2]}')
         print(f'CPF: {usuario[3]}')
-        print(f'NUMERO: {usuario[4]}')
+        print(f'NÙMERO: {usuario[4]}')
 
+    cursor.close()
     conexao.close()
 
+    return resultado
+
 def relatorio_ordem_alfabetica_usuario():
-    conexao = sqlite3.connect('database/biblioteca')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -436,8 +439,15 @@ def relatorio_ordem_alfabetica_usuario():
     ORDER BY nome ASC
     """)
 
+    resultado = cursor.fetchall()
+
+    cursor.close()
+    conexao.close()
+
+    return resultado
+
 def relatorio_id_usuario():
-    conexao = sqlite3.connect('database/biblioteca')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execut("""
@@ -454,21 +464,23 @@ def relatorio_id_usuario():
         print(f'CPF: {usuario[3]}')
         print(f'NUMERO: {usuario[4]}')
 
+    cursor.close()
     conexao.close()
 
+    return resultado 
+
 def relatorio_usuario_emprestimo():
-    conexao = sqlite3.connect('database/biblioteca')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     SELECT usuarios.nome,
     COUNT(emprestimos.id_emprestimo) FROM usuarios
-    INNER JOIN emprestimos
+    JOIN emprestimos
         ON usuarios.id_usuario = emprestimos.id_usuario
     GROUP BY usuarios.id_usuario
     ORDER BY COUNT(emprestimos.id_emprestimo) DESC
     """)
-    # INNER JOIN não retorna valores nulos
 
     resultado = cursor.fetchall()
 
@@ -477,23 +489,28 @@ def relatorio_usuario_emprestimo():
         print(f'Empréstimos: {usuario[1]}')
         print('--------------------')
 
+    cursor.close()
     conexao.close()
 
+    return resultado
+
 def relatorio_usuario_sem_emprestimo():
-    conexao = sqlite3.connect('database/biblioteca')
+    conexao = conectar()
     cursor = conexao.cursor()
 
     cursor.execute("""
     SELECT usuarios.nome FROM usuarios
-    LEFT JOIN emprestimos
+    JOIN emprestimos
         ON usuarios.id_usuario = emprestimos.id_usuario
     WHERE emprestimos.id_usuario IS NULL
     """)
-    # LEFT JOIN retorna valores que podem ser Nulos
 
     resultado = cursor.fetchall()
 
     for usuario in resultado:
         print(f'Usuário: {usuario[0]}')
 
+    cursor.close()
     conexao.close()
+
+    return resultado
