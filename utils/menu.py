@@ -6,8 +6,7 @@ def menu_principal():
     print('1 - Livros')
     print('2 - Usuários')
     print('3 - Empréstimos')
-    print('4 - Pesquisar')
-    print('5 - Relatórios')
+    print('4 - Relatórios')
     print('0 - Sair')
     print()
     return int(input('Digite a seleção: '))
@@ -17,13 +16,16 @@ def menu_livros():
     print('1 - Cadastrar livro')
     print('2 - Remover livro')
     print('3 - Listar livros')
+    print('4 - Ordenar livros por ano')
+    print('5 - Ordernar livros por ordem alfabética')
+    print('6 - Pesquisar pelo nome')
     print('0 - Voltar')
     print()
     return int(input('Digite a seleção: '))
 
 def menu_usuarios():
     print()
-    print('1 - Criar usuário')
+    print('1 - Cadastrar usuário')
     print('2 - Remover usuário')
     print('3 - Listar usuários')
     print()
@@ -37,14 +39,6 @@ def menu_acoes():
     print('0 - Voltar')
     print()
     return int(input('Digite a ação requerida: '))
-
-def barra_pesquisa():
-    print()
-    print('1 - Descobrir nossa biblioteca por ano')
-    print('2 - Descobrir nossa biblioteca por ordem alfabética')
-    print('3 - Pesquisar pelo nome')
-    print()
-    return int(input('Informe a ação requerida: '))
 
 def menu_relatorio():
     print()

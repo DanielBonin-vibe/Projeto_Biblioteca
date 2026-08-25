@@ -1,13 +1,15 @@
-import psycopg 
+import psycopg, os
+from dotenv import load_dotenv
 
+load_dotenv() # carrega efetivamente o .env
 
 def conectar():
     conexao = psycopg.connect(
-        host='localhost',
-        port='5432',
-        dbname='projeto_biblioteca',
-        user='postgres',
-        password='B@nin180506'
+        host=os.getenv('DB_HOST'),
+        port=os.getenv('DB_PORT'),
+        dbname=os.getenv('DB_NAME'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASSWORD')
     )
 
     return conexao

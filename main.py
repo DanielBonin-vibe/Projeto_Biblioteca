@@ -26,6 +26,16 @@ while True:
         elif opcao_livro == 3:
             biblioteca.listar_livros()
 
+        elif opcao_livro == 4:
+            biblioteca.filtro_ano()
+
+        elif opcao_livro == 5:
+            biblioteca.filtro_ordem_alfabetica()
+
+        elif opcao_livro == 6:
+            nome_pesquisado = input('Informe uma tentativa do nome: ')
+            biblioteca.filtro_encontrar_pelo_nome(nome_pesquisado)
+
 ###########################
     elif opcao_inicial == 2:
 
@@ -63,24 +73,10 @@ while True:
             id_livro = int(input('Digite o ID do livro: '))
             biblioteca.devolver_emprestimo(id_emprestimo, id_livro)
 
-#######################
-
-    elif opcao_inicial == 4:
-        opcao_pesquisa = menu.barra_pesquisa()
-
-        if opcao_pesquisa == 1:
-            biblioteca.filtro_ano()
-
-        elif opcao_pesquisa == 2:
-            biblioteca.filtro_ordem_alfabetica()
-
-        elif opcao_pesquisa == 3:
-            nome_pesquisado = input('Informe uma tentativa do nome: ')
-            biblioteca.filtro_encontrar_pelo_nome(nome_pesquisado)
         
 #################################################################################################################
 
-    elif opcao_inicial == 5:
+    elif opcao_inicial == 4:
 
         acesso = relatorios.menu_senha_relatorio()
 
