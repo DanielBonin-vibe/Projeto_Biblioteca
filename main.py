@@ -70,8 +70,7 @@ while True:
 
         elif opcao_acoes == 3:
             id_emprestimo = int(input('Digite o ID do empréstimo: '))
-            id_livro = int(input('Digite o ID do livro: '))
-            biblioteca.devolver_emprestimo(id_emprestimo, id_livro)
+            biblioteca.devolver_emprestimo(id_emprestimo)
 
         
 #################################################################################################################

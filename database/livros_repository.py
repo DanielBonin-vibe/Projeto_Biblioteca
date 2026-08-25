@@ -33,7 +33,7 @@ def apagar_livro(livro):
 
     return resultado
 
-def pecorrer_livros():
+def listar_livros():
     conexao = conectar()
     cursor = conexao.cursor()
 

@@ -1,4 +1,5 @@
-from utils import menu, banco_de_dados
+from . import relatorios_repository
+from utils import menu
 
 def menu_senha_relatorio():
     senha_correta = '1234'
@@ -31,22 +32,22 @@ def executar_relatorio():
             opcao_livro = menu.menu_relatorio_livro()
 
             if opcao_livro == 1:
-                banco_de_dados.relatorio_livro_total()
+                relatorios_repository.relatorio_livro_total()
 
             elif opcao_livro ==  2:
-                banco_de_dados.relatorio_livro_ordem_alfabetica()
+                relatorios_repository.relatorio_livro_ordem_alfabetica()
 
             elif opcao_livro == 3:
-                banco_de_dados.relatorio_id_livro()
+                relatorios_repository.relatorio_id_livro()
 
             elif opcao_livro == 4:
-                banco_de_dados.relatorio_autor_livro()
+                relatorios_repository.relatorio_autor_livro()
 
             elif opcao_livro == 5:
-                banco_de_dados.relatorio_disponivel_livro()
+                relatorios_repository.relatorio_disponivel_livro()
 
             elif opcao_livro == 6:
-                banco_de_dados.relatorio_indisponivel_livro()
+                relatorios_repository.relatorio_indisponivel_livro()
             else:
                 break
 
@@ -55,19 +56,19 @@ def executar_relatorio():
             opcao_usuario = menu.menu_relatorio_usuario()
 
             if opcao_usuario == 1:
-                banco_de_dados.relatorio_padrao_usuario()
+                relatorios_repository.relatorio_padrao_usuario()
 
             elif opcao_usuario == 2:
-                banco_de_dados.relatorio_ordem_alfabetica_usuario()
+                relatorios_repository.relatorio_ordem_alfabetica_usuario()
 
             elif opcao_usuario == 3:
-                banco_de_dados.relatorio_id_usuario()
+                relatorios_repository.relatorio_id_usuario()
 
             elif opcao_usuario == 4:
-                banco_de_dados.relatorio_usuario_emprestimo()
+                relatorios_repository.relatorio_usuario_emprestimo()
 
             elif opcao_usuario == 5:
-                banco_de_dados.relatorio_usuario_sem_emprestimo()
+                relatorios_repository.relatorio_usuario_sem_emprestimo()
 
             else:
                 break
