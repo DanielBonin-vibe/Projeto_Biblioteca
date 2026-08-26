@@ -50,13 +50,12 @@ while True:
         opcao_usuarios = menu.menu_usuarios()
 
         if opcao_usuarios == 1:
-            nome_usuario = input('Digite o nome do cidadão a ser cadastrado: ')
-            idade_usuario = int(input('Digite a idade do cidadão a ser cadastrado: '))
-            cpf_usuario = input('Informe o CPF do cidadão: ')
-            numero_usuario = input('Informe o número telefônico: ')
-        
-            usuario = Usuario(nome_usuario, idade_usuario, cpf_usuario, numero_usuario) 
-            biblioteca.cadastrar_usuario(usuario)  
+            nome = input('Digite o nome do cidadão a ser cadastrado: ')
+            idade = int(input('Digite a idade do cidadão a ser cadastrado: '))
+            cpf = input('Informe o CPF do cidadão: ')
+            numero = input('Informe o número telefônico: ')
+    
+            biblioteca.cadastrar_usuario(nome, idade, cpf, numero)  
         
         elif opcao_usuarios == 2:
             id_usuario= int(input('Informe o ID de indentificação do usuário a ser removido: '))

@@ -2,7 +2,7 @@ from database.conexao_postgre import conectar
 ######################################################
 
 # Salvar usuários:
-def salvar_usuario(usuario):
+def cadastrar_usuario(usuario):
     conexao = conectar()
     cursor = conexao.cursor()
 

@@ -34,18 +34,24 @@ class Biblioteca:
 
 #######################################################################################
 
-    def cadastrar_usuario(self, usuario):
-        usuarios_repository.salvar_usuario(usuario)
-        print()
-        print(f'O usuário {usuario.nome} foi cadastrado.')
+    def cadastrar_usuario(self, nome, idade, cpf, numero):
+        resultado = usuarios_service.cadastrar_usuario(nome, idade, cpf, numero)
+        
+        if resultado == 'erro_ao_encontrado':
+            print(f'Erro ao cadastrar.')
+        else:
+            print('Usuário cadastrado.')
 
     def remover_usuario(self, id_usuario):
-        usuarios_repository.remover_usuario(id_usuario)
-        print()
-        print(f'O usuário foi removido do nosso cadastro.')
+        resultado = usuarios_service.remover_usuario(id_usuario)
+
+        if resultado == 'usuario_nao_encontrado':
+            print(f'Usuário não localizado.')
+        else:
+            print('Usuário removido.')
 
     def atualizar_usuario(self, id_usuario, nome, idade, cpf, numero):
-        resultado = usuarios_repository.atualizar_usuario(id_usuario, nome, idade, cpf, numero)
+        resultado = usuarios_service.atualizar_usuario(id_usuario, nome, idade, cpf, numero)
         print(resultado)
 
         if resultado == 0:
