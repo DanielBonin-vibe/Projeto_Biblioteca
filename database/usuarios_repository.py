@@ -2,37 +2,56 @@ from database.conexao_postgre import conectar
 ######################################################
 
 # Salvar usuários:
-def cadastrar_usuario(usuario):
+def cadastrar_usuario(nome, idade, cpf, numero):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execute("""
-    INSERT INTO usuarios(nome, idade, cpf, numero)
-    VALUES(%s, %s, %s, %s) 
-    """,(usuario.nome, usuario.idade, usuario.cpf, usuario.numero))
+    try:
+        cursor.execute("""
+        INSERT INTO usuarios(nome, idade, cpf, numero)
+        VALUES(%s, %s, %s, %s) 
+        """,(nome, idade, cpf, numero))
 
-    conexao.commit()
-    cursor.close()
-    conexao.close()
+        resultado = cursor.rowcount
 
-    return {'Mensagem': 'Usuário cadastrado'}
+        conexao.commit()
+
+        return resultado
+
+    except Exception as erro:
+        conexao.roolback()
+        print(f'Erro ao cadastrar o usuário: {erro}')
+        return 0
+    finally:
+        cursor.close()
+        conexao.close()
+
+    return 
 
 def remover_usuario(usuario):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execute("""
-    DELETE FROM usuarios
-    WHERE id_usuario = %s
-    """,(usuario,))
+    try:
+        cursor.execute("""
+        DELETE FROM usuarios
+        WHERE id_usuario = %s
+        """,(usuario,))
 
-    quantidade = cursor.rowcount
+        resultado = cursor.rowcount
 
-    conexao.commit()
-    cursor.close()
-    conexao.close()
+        conexao.commit()
 
-    return quantidade
+        return resultado
+
+    except Exception as erro:
+        conexao.roolback()
+        print(f'Erro ao cadastrar o usuário: {erro}')
+        return 0
+    finally:
+        cursor.close()
+        conexao.close()
+
 
 def atualizar_usuario(id_usuario, nome, idade, cpf, numero):
     conexao = conectar()
@@ -43,7 +62,7 @@ def atualizar_usuario(id_usuario, nome, idade, cpf, numero):
         UPDATE usuarios
         SET nome = %s, idade = %s, cpf = %s, numero = %s
         WHERE id_usuario = %s
-        """, nome, idade, cpf, numero, id_usuario)
+        """, (nome, idade, cpf, numero, id_usuario))
 
         resultado = cursor.rowcount
         
@@ -53,8 +72,9 @@ def atualizar_usuario(id_usuario, nome, idade, cpf, numero):
 
     except Exception as erro:
         conexao.rollback()
-        print(f'erro ao utilizar usuário: {erro}')
+        print(f'Erro ao utilizar usuário: {erro}')
         return 0
+    
     finally:
         cursor.close()
         conexao.close()

@@ -2,8 +2,8 @@ from database import usuarios_repository, livros_repository, emprestimos_reposit
 from services import emprestimos_service, livros_service, usuarios_service
 class Biblioteca:
 
-    def cadastrar_livro(self, id_livro):      
-        resultado = livros_service.cadastrar_livro(id_livro) 
+    def cadastrar_livro(self, titulo, autor, ano):      
+        resultado = livros_service.cadastrar_livro(titulo, autor, ano) 
 
         if resultado == 'livro_nao_encontrado':
             print('O livro não foi localizado.')
@@ -37,7 +37,7 @@ class Biblioteca:
     def cadastrar_usuario(self, nome, idade, cpf, numero):
         resultado = usuarios_service.cadastrar_usuario(nome, idade, cpf, numero)
         
-        if resultado == 'erro_ao_encontrado':
+        if resultado == 'erro_ao_cadastrar':
             print(f'Erro ao cadastrar.')
         else:
             print('Usuário cadastrado.')
@@ -45,7 +45,7 @@ class Biblioteca:
     def remover_usuario(self, id_usuario):
         resultado = usuarios_service.remover_usuario(id_usuario)
 
-        if resultado == 'usuario_nao_encontrado':
+        if resultado == 'erro_encontrado':
             print(f'Usuário não localizado.')
         else:
             print('Usuário removido.')
@@ -54,10 +54,10 @@ class Biblioteca:
         resultado = usuarios_service.atualizar_usuario(id_usuario, nome, idade, cpf, numero)
         print(resultado)
 
-        if resultado == 0:
+        if resultado == 'usuario_nao_encontrado':
             print('Usuário não encontrado')
         else:
-            print('Usuário atualziado com sucesso.')
+            print('Usuário atualizado com sucesso.')
 
         
     def listar_usuarios(self):
@@ -70,7 +70,7 @@ class Biblioteca:
 # Barra de pesquisa:
 
     def filtro_ano(self):
-        filtros = emprestimos_service.emprestar_livro
+        filtros = livros_repository.filtrar_livro_ano()
         print(filtros)
 
     def filtro_ordem_alfabetica(self):

@@ -16,15 +16,15 @@ while True:
             titulo = input('Informe o título do livro: ')
             autor = input("Digite o autor do livro: ")
             ano = input('Digite o ano de lançamento: ')
-            livro = Livro(titulo, autor, ano)  
-            biblioteca.cadastrar_livro(livro)
+ 
+            biblioteca.cadastrar_livro(titulo, autor, ano)
         
         elif opcao_livro == 2:
             id_livro = int(input('Digite o código de identificação do livro a ser removido: '))
             biblioteca.remover_livro(id_livro)
 
         elif opcao_livro == 3:
-            id_livro = int(input('Digite o código de identificação do livro a ser removido: '))
+            id_livro = int(input('Digite o código de identificação do livro a ser atualizado: '))
             titulo = input('Digite o novo título: ')
             autor = input('Digite o novo autor: ')
             ano = input('Digite o novo ano: ')

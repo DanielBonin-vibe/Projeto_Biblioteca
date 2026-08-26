@@ -1,14 +1,14 @@
 from database.conexao_postgre import conectar
 
-def cadastrar_livro(livro):
+def cadastrar_livro(titulo, autor, ano):
     conexao = conectar()
     cursor = conexao.cursor()
 
     try:
         cursor.execute("""
-        INSERT INTO livros(titulo, autor, ano, disponivel)
-        VALUES(%s, %s, %s, %s)
-        """, (livro.titulo, livro.autor, livro.ano, livro.disponivel))
+        INSERT INTO livros(titulo, autor, ano)
+        VALUES(%s, %s, %s)
+        """, (titulo, autor, ano))
 
         resultado = cursor.rowcount
         
