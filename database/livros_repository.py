@@ -4,34 +4,53 @@ def cadastrar_livro(livro):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execute("""
-    INSERT INTO livros(titulo, autor, ano, disponivel)
-    VALUES(%s, %s, %s, %s)
-    """, (livro.titulo, livro.autor, livro.ano, livro.disponivel))
+    try:
+        cursor.execute("""
+        INSERT INTO livros(titulo, autor, ano, disponivel)
+        VALUES(%s, %s, %s, %s)
+        """, (livro.titulo, livro.autor, livro.ano, livro.disponivel))
 
-    conexao.commit()
-    cursor.close()
-    conexao.close()
+        resultado = cursor.rowcount
+        
+        conexao.commit()
 
-    return {'Mensagem': 'Livro cadastrado'}
+        return resultado
 
-def apagar_livro(livro):
+    except Exception as erro:
+        conexao.rollback()
+        print(f"Erro ao cadastrar livro: {erro}")
+        return 0
+
+    finally:
+        cursor.close()
+        conexao.close()
+
+def remover_livro(id_livro):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    cursor.execute(
-        """
-        DELETE FROM livros
-        WHERE id_livro = %s
-        """,(livro,))
+    try:
+        cursor.execute(
+            """
+            DELETE FROM livros
+            WHERE id_livro = %s
+            """,(id_livro,))
 
-    resultado = cursor.rowcount
-    
-    conexao.commit()
-    cursor.close()
-    conexao.close()
+        resultado = cursor.rowcount
+        
+        conexao.commit()
 
-    return resultado
+        return resultado
+
+    except Exception as erro:
+        conexao.rollback()
+        print(f"Erro ao remover livro: {erro}")
+        return 0
+
+    finally:
+        cursor.close()
+        conexao.close()
+
 
 def atualizar_livro(id_livro, titulo, autor, ano):
     conexao = conectar()

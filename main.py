@@ -17,7 +17,7 @@ while True:
             autor = input("Digite o autor do livro: ")
             ano = input('Digite o ano de lançamento: ')
             livro = Livro(titulo, autor, ano)  
-            biblioteca.adicionar_livro(livro)
+            biblioteca.cadastrar_livro(livro)
         
         elif opcao_livro == 2:
             id_livro = int(input('Digite o código de identificação do livro a ser removido: '))

@@ -20,6 +20,6 @@ def devolver_livro(id_emprestimo):
     resultado = emprestimos_repository.devolver_emprestimo(id_emprestimo)
 
     if resultado is None:
-        return 'emprestimo_não_encontrado'
+        return 'emprestimo_nao_encontrado'
 
     return resultado

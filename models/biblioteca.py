@@ -1,29 +1,38 @@
 from database import usuarios_repository, livros_repository, emprestimos_repository
-from services import emprestimos_service
+from services import emprestimos_service, livros_service, usuarios_service
 class Biblioteca:
 
-    def adicionar_livro(self, livro):      
-        livros_repository.cadastrar_livro(livro)    
-        print() 
-        print(f'O livro "{livro.titulo}" foi adicionado à biblioteca.')
+    def cadastrar_livro(self, id_livro):      
+        resultado = livros_service.cadastrar_livro(id_livro) 
+
+        if resultado == 'livro_nao_encontrado':
+            print('O livro não foi localizado.')
+        else:
+            print('cadastro realizado com sucesso.')
 
     def remover_livro(self, id_livro):
-        quantidade = livros_repository.apagar_livro(id_livro)
+        resultado = livros_service.remover_livro(id_livro)
 
-        if quantidade > 0:
-            print(f'Livro de ID {id_livro} removido da nossa coletânea.')
+        if resultado == 'livro_nao_encontrado':
+            print(f'Livro não localizado.')
         else:
-            print('Livro não encontrado.')
+            print('Livro removido com sucesso.')
 
     def atualizar_livro(self, id_livro, titulo, autor, ano):
-        resultado = livros_repository.atualizar_livro(id_livro, titulo, autor, ano)
-        print(resultado)
+        resultado = livros_service.atualizar_livro(id_livro, titulo, autor, ano)
+
+        if resultado == 'livro_nao_encontrado':
+            print('Não foi possível localizar o livro.')
+        else:
+            print('Livro atualizado com sucesso.')
 
     def listar_livros(self):
         resultado = livros_repository.listar_livros()
         print()
         print(resultado)
         print('Listagem completa.')
+
+#######################################################################################
 
     def cadastrar_usuario(self, usuario):
         usuarios_repository.salvar_usuario(usuario)
