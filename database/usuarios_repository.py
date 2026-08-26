@@ -34,6 +34,32 @@ def remover_usuario(usuario):
 
     return quantidade
 
+def atualizar_usuario(id_usuario, nome, idade, cpf, numero):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    try:
+        cursor.execute("""
+        UPDATE usuarios
+        SET nome = %s, idade = %s, cpf = %s, numero = %s
+        WHERE id_usuario = %s
+        """, nome, idade, cpf, numero, id_usuario)
+
+        resultado = cursor.rowcount
+        
+        conexao.commit()
+
+        return resultado
+
+    except Exception as erro:
+        conexao.rollback()
+        print(f'erro ao utilizar usuário: {erro}')
+        return 0
+    finally:
+        cursor.close()
+        conexao.close()
+
+
 def listar_usuarios():
     conexao = conectar()
     cursor = conexao.cursor()

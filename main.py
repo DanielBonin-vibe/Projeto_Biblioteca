@@ -2,7 +2,7 @@ from models.livro import Livro
 from models.usuario import Usuario
 from models.biblioteca import Biblioteca
 from relatorios import relatorios
-from utils import menu, banco_de_dados
+from utils import menu
 biblioteca = Biblioteca()
 
 while True:
@@ -20,19 +20,27 @@ while True:
             biblioteca.adicionar_livro(livro)
         
         elif opcao_livro == 2:
-            id_livro = int(input('Digite o Código de identificação do livro a ser removido: '))
+            id_livro = int(input('Digite o código de identificação do livro a ser removido: '))
             biblioteca.remover_livro(id_livro)
- 
+
         elif opcao_livro == 3:
+            id_livro = int(input('Digite o código de identificação do livro a ser removido: '))
+            titulo = input('Digite o novo título: ')
+            autor = input('Digite o novo autor: ')
+            ano = input('Digite o novo ano: ')
+
+            biblioteca.atualizar_livro(id_livro, titulo, autor, ano)
+ 
+        elif opcao_livro == 4:
             biblioteca.listar_livros()
 
-        elif opcao_livro == 4:
+        elif opcao_livro == 5:
             biblioteca.filtro_ano()
 
-        elif opcao_livro == 5:
+        elif opcao_livro == 6:
             biblioteca.filtro_ordem_alfabetica()
 
-        elif opcao_livro == 6:
+        elif opcao_livro == 7:
             nome_pesquisado = input('Informe uma tentativa do nome: ')
             biblioteca.filtro_encontrar_pelo_nome(nome_pesquisado)
 
@@ -55,6 +63,15 @@ while True:
             biblioteca.remover_usuario(id_usuario)
 
         elif opcao_usuarios == 3:
+            id_usuario = int(input('Informe o ID do usuário a ser atualizado: '))
+            nome = input('Informe o novo nome do usuário: ')
+            idade = int(input('Informe a nova idade: '))
+            cpf = input('Informe o novo CPF: ')
+            numero = input('Informe o novo número telefônico: ')
+
+            biblioteca.atualizar_usuario(id_usuario, nome, idade, cpf, numero)
+
+        elif opcao_usuarios == 4:
             biblioteca.listar_usuarios()
 
 ################################

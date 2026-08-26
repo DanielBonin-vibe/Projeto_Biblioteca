@@ -14,6 +14,10 @@ class Biblioteca:
         else:
             print('Livro não encontrado.')
 
+    def atualizar_livro(self, id_livro, titulo, autor, ano):
+        resultado = livros_repository.atualizar_livro(id_livro, titulo, autor, ano)
+        print(resultado)
+
     def listar_livros(self):
         resultado = livros_repository.listar_livros()
         print()
@@ -30,6 +34,16 @@ class Biblioteca:
         print()
         print(f'O usuário foi removido do nosso cadastro.')
 
+    def atualizar_usuario(self, id_usuario, nome, idade, cpf, numero):
+        resultado = usuarios_repository.atualizar_usuario(id_usuario, nome, idade, cpf, numero)
+        print(resultado)
+
+        if resultado == 0:
+            print('Usuário não encontrado')
+        else:
+            print('Usuário atualziado com sucesso.')
+
+        
     def listar_usuarios(self):
         resultado = usuarios_repository.listar_usuarios()
         print()

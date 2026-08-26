@@ -33,6 +33,32 @@ def apagar_livro(livro):
 
     return resultado
 
+def atualizar_livro(id_livro, titulo, autor, ano):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    try:
+        cursor.execute("""
+        UPDATE livros
+        SET titulo = %s, autor = %s, ano = %s
+        WHERE id_livro = %s
+        """, (titulo, autor, ano, id_livro))
+
+        resultado = cursor.rowcount
+
+        conexao.commit()
+
+        return resultado
+
+    except Exception as erro:
+        conexao.rollback()
+        print(f'Erro ao atualizar livro: {erro}')
+        return 0
+
+    finally:
+        cursor.close()
+        conexao.close()
+
 def listar_livros():
     conexao = conectar()
     cursor = conexao.cursor()
