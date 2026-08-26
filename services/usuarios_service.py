@@ -25,3 +25,5 @@ def cadastrar_usuario(nome, idade, cpf, numero):
 
     else:
         return 'usuario_cadastrado'
+
+#
