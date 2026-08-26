@@ -1,32 +1,37 @@
 # 📚 Sistema de Gerenciamento de Biblioteca
 
-Sistema de gerenciamento de biblioteca desenvolvido em **Python**, utilizando **PostgreSQL** como banco de dados e **FastAPI** para disponibilização de uma API REST.
+Sistema de gerenciamento de biblioteca desenvolvido em **Python**, utilizando **PostgreSQL** como banco de dados e seguindo uma arquitetura progressivamente organizada em camadas.
 
-O projeto foi criado com objetivo educacional e evolui progressivamente conforme novos conceitos de programação, banco de dados, desenvolvimento backend e arquitetura de software são estudados e aplicados.
+O projeto foi criado com objetivo educacional para aplicar, na prática, conhecimentos de **Python, Programação Orientada a Objetos, SQL, PostgreSQL, APIs REST e desenvolvimento backend**.
 
-A **versão 4.0** representa uma nova etapa do projeto, com foco não apenas na adição de funcionalidades, mas também em **experiência de uso, regras de negócio, organização, segurança, manutenção e qualidade do código**.
+Atualmente, o projeto encontra-se na **Versão 4.0**, marcada principalmente pela evolução da arquitetura, segurança, regras de negócio e persistência dos dados.
 
 ---
 
 # 🎯 Objetivo do projeto
 
-O principal objetivo do Projeto Biblioteca é consolidar, através da prática, conhecimentos relacionados a:
+O principal objetivo do Projeto Biblioteca é consolidar conhecimentos de desenvolvimento backend através da construção e evolução contínua de um sistema real.
+
+Durante o desenvolvimento são trabalhados conceitos como:
 
 * Python
 * Programação Orientada a Objetos
 * PostgreSQL
 * SQL
-* Bancos de dados relacionais
 * CRUD
+* Chaves primárias e estrangeiras
 * Relacionamentos entre tabelas
-* APIs REST
+* Consultas parametrizadas
+* Transações
+* Arquitetura em camadas
+* Repository Pattern
+* Service Layer
+* Variáveis de ambiente
 * FastAPI
 * Pydantic
-* Arquitetura de software
-* Regras de negócio
-* Git e GitHub
-
-O projeto também funciona como uma base de estudos para evolução gradual em desenvolvimento backend.
+* APIs REST
+* Git
+* GitHub
 
 ---
 
@@ -34,26 +39,26 @@ O projeto também funciona como uma base de estudos para evolução gradual em d
 
 ## 👤 Usuários
 
-O sistema permite atualmente:
+O sistema permite:
 
-* Cadastro de usuários
-* Listagem de usuários
-* Remoção de usuários
-* Consulta de usuários
-* Ordenação por nome
-* Ordenação por ID
-* Relatórios de usuários
-* Relatório de usuários com empréstimos
-* Relatório de usuários sem empréstimos
+* Cadastrar usuários
+* Listar usuários
+* Atualizar informações
+* Remover usuários
+* Ordenar usuários por nome
+* Ordenar usuários por ID
+* Gerar relatórios
+* Identificar usuários com empréstimos
+* Identificar usuários sem empréstimos
 
-### Planejado para a versão 4.0
+### CRUD de usuários
 
-* Edição de usuários
-* CRUD completo
-* Pesquisa de usuários para operações
-* Redução da necessidade de informar IDs manualmente
-* Melhor tratamento para usuários inexistentes
-* Regras para remoção de usuários relacionados a empréstimos
+```text
+Create ✅
+Read   ✅
+Update ✅
+Delete ✅
+```
 
 ---
 
@@ -61,290 +66,144 @@ O sistema permite atualmente:
 
 O sistema permite:
 
-* Cadastro de livros
-* Listagem de livros
-* Remoção de livros
-* Pesquisa por título
-* Ordenação por ano
-* Ordenação alfabética
-* Ordenação por ID
-* Ordenação por autor
-* Controle de disponibilidade
-* Relatório de livros disponíveis
-* Relatório de livros indisponíveis
-* Relatório da quantidade total de livros
+* Cadastrar livros
+* Listar livros
+* Atualizar informações
+* Remover livros
+* Pesquisar livros pelo título
+* Ordenar livros por ano
+* Ordenar livros alfabeticamente
+* Ordenar livros por ID
+* Ordenar por autor
+* Controlar disponibilidade
+* Listar livros disponíveis
+* Listar livros indisponíveis
+* Consultar quantidade total de livros
 
-Cada livro possui:
+### CRUD de livros
 
-* ID
-* Título
-* Autor
-* Ano
-* Disponibilidade
+```text
+Create ✅
+Read   ✅
+Update ✅
+Delete ✅
+```
 
-### Planejado para a versão 4.0
+A disponibilidade não é alterada manualmente durante uma edição.
 
-* Edição de livros
-* CRUD completo
-* Pesquisa antes de operações de alteração e remoção
-* Seleção de livros por informações legíveis
-* Redução da dependência de IDs na interface
-* Regras adicionais para remoção de livros emprestados
+Ela é controlada automaticamente pelas regras de empréstimo:
+
+```text
+Livro cadastrado
+      ↓
+disponivel = TRUE
+
+Livro emprestado
+      ↓
+disponivel = FALSE
+
+Livro devolvido
+      ↓
+disponivel = TRUE
+```
 
 ---
 
 # 🔄 Empréstimos
 
-O sistema possui relacionamento entre usuários e livros através da tabela de empréstimos.
+O módulo de empréstimos relaciona usuários e livros através de chaves estrangeiras.
 
-Atualmente é possível:
+O sistema permite:
 
-* Registrar empréstimos
-* Relacionar um usuário a um livro
-* Verificar a existência do livro
-* Verificar automaticamente a disponibilidade
-* Tornar o livro indisponível após o empréstimo
-* Listar empréstimos
+* Realizar empréstimos
+* Verificar existência do livro
+* Verificar disponibilidade
+* Registrar automaticamente a data do empréstimo
+* Tornar o livro indisponível
+* Listar empréstimos ativos
 * Realizar devoluções
-* Restaurar automaticamente a disponibilidade após a devolução
-
-O fluxo atual funciona da seguinte forma:
-
-```text
-Usuário
-   │
-   ▼
-Empréstimo
-   │
-   ▼
-Livro
-```
-
-Quando um livro é emprestado:
-
-```text
-Livro disponível
-      ↓
-Registro do empréstimo
-      ↓
-disponivel = FALSE
-```
-
-Quando é devolvido:
-
-```text
-Devolução
-    ↓
-disponivel = TRUE
-    ↓
-Empréstimo removido
-```
-
----
-
-# 🚀 Evolução dos empréstimos na versão 4.0
-
-Uma das principais modificações planejadas para a versão 4.0 é transformar os empréstimos em registros históricos.
-
-Atualmente, um empréstimo é removido do banco após a devolução.
-
-Na nova implementação, o registro deverá ser preservado.
-
-A tabela deverá evoluir conceitualmente para:
-
-```text
-emprestimos
-│
-├── id_emprestimo
-├── id_usuario
-├── id_livro
-├── data_emprestimo
-├── data_prevista_devolucao
-├── data_devolucao
-└── status
-```
-
-O novo fluxo será:
-
-```text
-EMPRÉSTIMO
-
-Livro disponível
-      ↓
-Registro do empréstimo
-      ↓
-Data do empréstimo
-      ↓
-Prazo de devolução
-      ↓
-Status = ativo
-      ↓
-Livro indisponível
-```
-
-Na devolução:
-
-```text
-DEVOLUÇÃO
-
-Empréstimo ativo
-      ↓
-Registrar data da devolução
-      ↓
-Status = devolvido
-      ↓
-Livro disponível
-      ↓
-Registro permanece no histórico
-```
-
-Dessa forma, os empréstimos não precisarão mais ser apagados após a devolução.
+* Registrar a data da devolução
+* Alterar o status do empréstimo
+* Restaurar a disponibilidade do livro
+* Preservar o histórico das operações
 
 ---
 
 # 🕒 Histórico de empréstimos
 
-Com a nova modelagem será possível implementar:
+A partir da versão 4.0, os empréstimos deixaram de ser apagados após uma devolução.
 
-* Histórico completo de empréstimos
-* Histórico por usuário
-* Histórico por livro
-* Empréstimos ativos
-* Empréstimos devolvidos
-* Empréstimos atrasados
-* Data de realização do empréstimo
-* Prazo previsto para devolução
-* Data efetiva da devolução
-
----
-
-# 🔎 Experiência de uso
-
-Uma das melhorias planejadas para a versão 4.0 é reduzir a dependência de IDs na interface.
-
-Os IDs continuarão sendo utilizados internamente pelo PostgreSQL como chaves primárias e estrangeiras.
-
-Porém, o usuário do sistema não deverá precisar conhecê-los previamente para realizar operações.
-
-Em vez de:
+Anteriormente:
 
 ```text
-Digite o ID do usuário: 7
-Digite o ID do livro: 14
+Empréstimo
+    ↓
+Devolução
+    ↓
+DELETE
 ```
 
-o sistema deverá permitir pesquisas e seleções mais legíveis:
+Agora:
 
 ```text
-Digite o nome do usuário: Maria
-
-1 - Maria Oliveira
-2 - Maria Santos
-
-Escolha: 1
+Empréstimo
+    ↓
+status = ativo
+    ↓
+Devolução
+    ↓
+status = devolvido
+data_devolucao = data atual
+    ↓
+Registro permanece no banco
 ```
 
-Para livros:
+Isso permite preservar todo o histórico da biblioteca.
+
+A tabela de empréstimos possui:
 
 ```text
-Digite o título: Dom
-
-1 - Dom Casmurro — Machado de Assis
-2 - Dom Quixote — Miguel de Cervantes
-```
-
-Internamente, o sistema continuará utilizando:
-
-```text
+id_emprestimo
 id_usuario
 id_livro
-id_emprestimo
+data_emprestimo
+data_devolucao
+status
 ```
 
-para garantir os relacionamentos do banco de dados.
+---
+
+# 🗄️ PostgreSQL
+
+O projeto utiliza **PostgreSQL** como sistema gerenciador de banco de dados.
+
+A comunicação entre Python e PostgreSQL é realizada através do:
+
+```text
+Psycopg
+```
+
+O PostgreSQL substituiu completamente o SQLite utilizado nas primeiras versões do projeto.
 
 ---
 
-# 📊 Relatórios
-
-O projeto já possui um sistema próprio de relatórios.
-
-São utilizadas consultas SQL envolvendo:
-
-* `SELECT`
-* `WHERE`
-* `ORDER BY`
-* `COUNT`
-* `GROUP BY`
-* `INNER JOIN`
-* `LEFT JOIN`
-
-## 📚 Relatórios de livros
-
-Atualmente estão disponíveis:
-
-* Total de livros
-* Listagem completa
-* Ordem alfabética
-* Ordenação por ID
-* Ordenação por autor
-* Livros disponíveis
-* Livros indisponíveis
-
-## 👤 Relatórios de usuários
-
-Atualmente estão disponíveis:
-
-* Listagem de usuários
-* Ordem alfabética
-* Ordenação por ID
-* Usuários com empréstimos
-* Usuários sem empréstimos
-
-## 📈 Novos relatórios planejados
-
-Com a implementação do histórico de empréstimos, a versão 4.0 poderá incluir:
-
-* Empréstimos ativos
-* Empréstimos devolvidos
-* Empréstimos atrasados
-* Livros mais emprestados
-* Usuários que mais realizam empréstimos
-* Histórico de determinado usuário
-* Histórico de determinado livro
-* Quantidade de empréstimos por período
-
----
-
-# 🗄️ Banco de dados
-
-A partir da versão 3.0, o projeto utiliza **PostgreSQL** como sistema gerenciador de banco de dados.
-
-A comunicação entre Python e PostgreSQL é realizada através do **Psycopg**.
-
-O projeto deixou de utilizar SQLite3 como banco principal.
-
----
-
-# 🧱 Modelagem atual
+# 🧱 Modelagem do banco
 
 As principais entidades são:
 
 ```text
 USUÁRIOS
-   │
-   │ id_usuario
-   │
-   ▼
+    │
+    │ id_usuario
+    ▼
 EMPRÉSTIMOS
-   ▲
-   │
-   │ id_livro
-   │
+    ▲
+    │ id_livro
+    │
 LIVROS
 ```
 
-## usuarios
+## Tabela `usuarios`
 
 ```text
 id_usuario
@@ -354,7 +213,7 @@ cpf
 numero
 ```
 
-## livros
+## Tabela `livros`
 
 ```text
 id_livro
@@ -364,21 +223,40 @@ ano
 disponivel
 ```
 
-## emprestimos
+## Tabela `emprestimos`
 
 ```text
 id_emprestimo
 id_usuario
 id_livro
+data_emprestimo
+data_devolucao
+status
 ```
-
-Os relacionamentos são garantidos através de **Foreign Keys**.
 
 ---
 
-# 🔑 Chaves primárias
+# 🔗 Relacionamentos
 
-O PostgreSQL utiliza colunas `IDENTITY` para geração automática dos identificadores.
+A tabela `emprestimos` relaciona usuários e livros através de Foreign Keys.
+
+```sql
+FOREIGN KEY (id_usuario)
+REFERENCES usuarios(id_usuario)
+```
+
+```sql
+FOREIGN KEY (id_livro)
+REFERENCES livros(id_livro)
+```
+
+Isso garante integridade entre os registros do sistema.
+
+---
+
+# 🔑 IDs automáticos
+
+As chaves primárias utilizam `IDENTITY` do PostgreSQL.
 
 Exemplo:
 
@@ -386,55 +264,256 @@ Exemplo:
 id_livro INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY
 ```
 
-Isso permite que o próprio PostgreSQL controle a geração dos IDs.
+Dessa forma, os IDs são gerados automaticamente pelo próprio banco.
 
 ---
 
-# 🔗 Chaves estrangeiras
+# 📅 Datas automáticas
 
-A tabela `emprestimos` relaciona usuários e livros:
-
-```sql
-FOREIGN KEY (id_usuario)
-REFERENCES usuarios(id_usuario)
-```
-
-e:
+Ao realizar um empréstimo, o PostgreSQL registra automaticamente sua data e horário:
 
 ```sql
-FOREIGN KEY (id_livro)
-REFERENCES livros(id_livro)
+data_emprestimo TIMESTAMP
+NOT NULL
+DEFAULT CURRENT_TIMESTAMP
 ```
 
-Isso garante integridade entre os registros relacionados.
-
----
-
-# 📖 Schema SQL
-
-A estrutura do banco é armazenada em:
+Enquanto o livro não for devolvido:
 
 ```text
-database/schema.sql
+data_devolucao = NULL
+status = ativo
 ```
 
-O arquivo permite recriar a estrutura do banco PostgreSQL em outras máquinas sem depender de um arquivo de banco local.
+Na devolução:
+
+```text
+data_devolucao = CURRENT_TIMESTAMP
+status = devolvido
+```
 
 ---
 
-# 🏗️ Estrutura do projeto
+# 🔐 Variáveis de ambiente
 
-A organização atual segue uma divisão modular:
+A partir da versão 4.0, as credenciais do PostgreSQL não ficam mais armazenadas diretamente no código-fonte.
+
+O projeto utiliza:
+
+```text
+python-dotenv
+```
+
+e um arquivo:
+
+```text
+.env
+```
+
+Exemplo:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=projeto_biblioteca
+DB_USER=postgres
+DB_PASSWORD=sua_senha
+```
+
+O arquivo `.env` está incluído no `.gitignore` e **não deve ser enviado para o GitHub**.
+
+---
+
+# 🔌 Conexão com PostgreSQL
+
+A conexão utiliza as variáveis carregadas do ambiente:
+
+```python
+import os
+
+import psycopg
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+
+def conectar():
+    return psycopg.connect(
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT"),
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD")
+    )
+```
+
+---
+
+# 🔄 Transações
+
+Operações importantes utilizam transações para garantir consistência dos dados.
+
+Um empréstimo envolve:
+
+```text
+INSERT empréstimo
++
+UPDATE disponibilidade do livro
+```
+
+Uma devolução envolve:
+
+```text
+UPDATE disponibilidade do livro
++
+UPDATE empréstimo
+```
+
+Se todas as operações funcionarem:
+
+```python
+conexao.commit()
+```
+
+Se algum erro ocorrer:
+
+```python
+conexao.rollback()
+```
+
+Isso impede que apenas parte de uma operação seja gravada.
+
+---
+
+# 🏗️ Arquitetura
+
+A versão 4.0 introduziu uma divisão mais clara de responsabilidades.
+
+O fluxo principal da aplicação é:
+
+```text
+main.py
+   ↓
+Biblioteca
+   ↓
+Services
+   ↓
+Repositories
+   ↓
+PostgreSQL
+```
+
+---
+
+# 🧠 Service Layer
+
+Os **services** concentram regras de negócio e interpretam os resultados recebidos dos repositories.
+
+Exemplos:
+
+```text
+emprestimos_service
+livros_service
+usuarios_service
+```
+
+Responsabilidades:
+
+```text
+Service
+→ valida regras
+→ interpreta resultados
+→ decide se uma operação pode continuar
+```
+
+Exemplo:
+
+```text
+O livro existe?
+      ↓
+Está disponível?
+      ↓
+Pode ser emprestado?
+```
+
+---
+
+# 🗃️ Repository Layer
+
+Os repositories são responsáveis pelo acesso ao PostgreSQL.
+
+Eles concentram operações como:
+
+```text
+SELECT
+INSERT
+UPDATE
+DELETE
+COMMIT
+ROLLBACK
+```
+
+A estrutura utiliza repositories separados para cada domínio:
+
+```text
+usuarios_repository
+livros_repository
+emprestimos_repository
+relatorios_repository
+```
+
+Responsabilidade:
+
+```text
+Repository
+→ acessar e modificar dados
+```
+
+---
+
+# 🧩 Separação de responsabilidades
+
+A arquitetura segue a ideia:
+
+```text
+Interface
+   ↓
+Regra de negócio
+   ↓
+Persistência
+```
+
+Ou:
+
+```text
+Biblioteca
+→ interação e apresentação
+
+Services
+→ regras de negócio
+
+Repositories
+→ SQL e PostgreSQL
+```
+
+Essa separação reduz o acoplamento e facilita futuras expansões da aplicação.
+
+---
+
+# 📁 Estrutura do projeto
+
+A estrutura atual é organizada aproximadamente da seguinte forma:
 
 ```text
 Projeto_Biblioteca/
 │
-├── app/
-│   └── api.py
-│
 ├── database/
 │   ├── __init__.py
 │   ├── conexao_postgre.py
+│   ├── usuarios_repository.py
+│   ├── livros_repository.py
+│   ├── emprestimos_repository.py
 │   └── schema.sql
 │
 ├── models/
@@ -443,271 +522,108 @@ Projeto_Biblioteca/
 │   ├── livro.py
 │   └── usuario.py
 │
+├── services/
+│   ├── __init__.py
+│   ├── usuarios_service.py
+│   ├── livros_service.py
+│   └── emprestimos_service.py
+│
 ├── relatorios/
 │   ├── __init__.py
-│   └── relatorios.py
+│   ├── relatorios.py
+│   └── relatorios_repository.py
 │
 ├── utils/
 │   ├── __init__.py
-│   ├── banco_de_dados.py
 │   └── menu.py
 │
-├── main.py
-├── requirements.txt
+├── app/
+│   └── api.py
+│
+├── .env
 ├── .gitignore
+├── requirements.txt
+├── main.py
 └── README.md
 ```
 
 ---
 
-# 📁 Responsabilidade atual dos módulos
+# 📊 Relatórios
 
-## `main.py`
+O projeto possui relatórios baseados em consultas SQL.
 
-Responsável pelo fluxo principal da aplicação em terminal.
+São utilizados conceitos como:
 
-Realiza a integração entre:
+```sql
+SELECT
+WHERE
+ORDER BY
+COUNT
+GROUP BY
+INNER JOIN
+LEFT JOIN
+```
 
-* menus
-* biblioteca
-* usuários
-* livros
-* empréstimos
-* relatórios
+## Relatórios de livros
 
----
+* Total de livros
+* Listagem completa
+* Ordenação por título
+* Ordenação por ID
+* Ordenação por autor
+* Livros disponíveis
+* Livros indisponíveis
 
-## `models/`
+## Relatórios de usuários
 
-Contém os modelos principais do sistema.
-
-### `livro.py`
-
-Representação dos livros.
-
-### `usuario.py`
-
-Representação dos usuários.
-
-### `biblioteca.py`
-
-Intermedia várias operações entre o fluxo principal e a camada de persistência.
-
----
-
-## `database/`
-
-Responsável pela infraestrutura relacionada ao PostgreSQL.
-
-### `conexao_postgre.py`
-
-Criação da conexão entre Python e PostgreSQL utilizando Psycopg.
-
-### `schema.sql`
-
-Definição das tabelas e relacionamentos do banco.
+* Listagem completa
+* Ordenação alfabética
+* Ordenação por ID
+* Usuários com empréstimos
+* Usuários sem empréstimos
 
 ---
 
-## `utils/banco_de_dados.py`
+# 📄 Schema SQL
 
-Atualmente concentra:
-
-* consultas SQL
-* INSERT
-* SELECT
-* UPDATE
-* DELETE
-* empréstimos
-* devoluções
-* filtros
-* relatórios
-
-Uma das metas arquiteturais da versão 4.0 é reduzir essa concentração de responsabilidades.
-
----
-
-## `utils/menu.py`
-
-Contém os menus utilizados pela aplicação em terminal.
-
----
-
-## `relatorios/relatorios.py`
-
-Controla o fluxo dos menus relacionados aos relatórios.
-
-Os relatórios deixaram de ser executados automaticamente durante a importação do módulo e agora são chamados explicitamente pelo fluxo principal.
-
----
-
-# 🧠 Arquitetura planejada para a versão 4.0
-
-A versão 4.0 pretende separar melhor três responsabilidades:
+A estrutura necessária para criação das tabelas está armazenada em:
 
 ```text
-Persistência
-     ↓
-Regras de negócio
-     ↓
-Apresentação
+database/schema.sql
 ```
 
-O banco de dados deverá ser responsável por buscar e persistir informações.
-
-As regras de negócio deverão decidir o que pode ou não acontecer.
-
-A camada de apresentação poderá utilizar os mesmos dados tanto no terminal quanto na API.
-
-Conceitualmente:
-
-```text
-             ┌── Terminal
-             │
-PostgreSQL → Aplicação
-             │
-             └── FastAPI
-```
-
-Isso permitirá reutilizar as mesmas regras de negócio em diferentes interfaces.
-
----
-
-# ⚙️ Transações
-
-Operações que modificam mais de uma informação deverão ser tratadas como uma única transação.
-
-Um empréstimo, por exemplo, envolve:
-
-```text
-INSERT empréstimo
-+
-UPDATE disponibilidade do livro
-```
-
-As duas operações deverão funcionar juntas.
-
-Caso uma delas falhe, a operação inteira deverá ser revertida através de `rollback`.
-
----
-
-# 🔐 Configuração e segurança
-
-Outra evolução planejada para a versão 4.0 é retirar credenciais do código-fonte.
-
-Informações como:
-
-```text
-host
-porta
-nome do banco
-usuário
-senha
-```
-
-deverão ser armazenadas através de variáveis de ambiente.
-
-Será utilizado um arquivo:
-
-```text
-.env
-```
-
-que não deverá ser enviado ao GitHub.
-
-O `.gitignore` deverá conter:
-
-```gitignore
-.env
-venv/
-.venv/
-__pycache__/
-*.pyc
-*.db
-*.sqlite
-*.sqlite3
-.vscode/
-```
-
----
-
-# 🌐 API REST
-
-O projeto utiliza **FastAPI** para desenvolvimento da API.
-
-A versão 4.0 pretende aproximar as funcionalidades disponíveis pela API das funcionalidades disponíveis no sistema principal.
-
-Entre as melhorias planejadas:
-
-* Rotas de usuários
-* Rotas de livros
-* Rotas de empréstimos
-* Edição de registros
-* Validação de entrada com Pydantic
-* Respostas HTTP adequadas
-* Tratamento de registros inexistentes
-* Tratamento de conflitos
-* Reutilização das regras de negócio do sistema
-
----
-
-# 🧪 Testes
-
-A versão atual foi validada através de testes manuais das principais funcionalidades.
-
-Foram testados fluxos envolvendo:
-
-* Conexão com PostgreSQL
-* Cadastro de livros
-* Listagem de livros
-* Remoção
-* Cadastro de usuários
-* Empréstimos
-* Disponibilidade
-* Devoluções
-* Relatórios
-* Menus
-
-A versão 4.0 pretende iniciar a implementação de **testes automatizados**, principalmente para regras de negócio críticas.
-
----
-
-# 🛠️ Tecnologias utilizadas
-
-* 🐍 Python
-* 🐘 PostgreSQL
-* 🔌 Psycopg
-* ⚡ FastAPI
-* 📦 Pydantic
-* 📄 SQL
-* 🔗 Git
-* 🐙 GitHub
+Isso permite recriar o banco de dados em outra máquina sem depender de arquivos locais de banco.
 
 ---
 
 # 📦 Dependências
 
-As dependências do projeto estão registradas em:
+As dependências utilizadas pelo projeto estão registradas em:
 
 ```text
 requirements.txt
 ```
 
-Para instalá-las:
+Para instalar:
 
 ```bash
 pip install -r requirements.txt
 ```
 
+---
+
+# 🐍 Ambiente virtual
+
 É recomendado utilizar um ambiente virtual.
 
-No Windows:
+Criando:
 
 ```bash
 python -m venv venv
 ```
 
-Ativação:
+No Windows:
 
 ```bash
 venv\Scripts\activate
@@ -721,7 +637,7 @@ pip install -r requirements.txt
 
 ---
 
-# ▶️ Executando o sistema
+# ▶️ Executando a aplicação
 
 Com o ambiente virtual ativado:
 
@@ -731,199 +647,86 @@ python main.py
 
 ---
 
-# 🌐 Executando a API
+# ⚡ FastAPI
 
-Com as dependências instaladas:
+O projeto possui uma implementação inicial utilizando **FastAPI** e **Pydantic**.
 
-```bash
-uvicorn app.api:app --reload
-```
+A API foi introduzida em versões anteriores e será o principal foco da próxima grande evolução do projeto.
 
-A documentação automática poderá ser acessada através de:
-
-```text
-http://127.0.0.1:8000/docs
-```
+A arquitetura construída na versão 4.0 prepara a aplicação para que tanto o terminal quanto a API possam reutilizar os mesmos services e regras de negócio.
 
 ---
 
-# 📈 Evolução do projeto
+# 🚀 Roadmap — Versão 5.0
 
-## 🟢 Versão 1.0
+A versão 5.0 terá foco principal na evolução da **API REST**.
 
-Primeira implementação do sistema.
+Entre os objetivos planejados estão:
 
-Principais características:
-
-* Cadastro de livros
-* Gerenciamento básico da biblioteca
-* Programação Orientada a Objetos
-* Primeiros contatos com persistência
-
----
-
-## 🔵 Versão 2.0
-
-Expansão do sistema e utilização de banco de dados relacional.
-
-Principais evoluções:
-
-* SQLite3
-* Cadastro de usuários
-* Sistema de empréstimos
-* Sistema de devoluções
-* Controle de disponibilidade
-* Foreign Keys
-* Relacionamentos entre tabelas
-* Consultas com JOIN
-* Sistema de relatórios
-* FastAPI
-* Pydantic
-* API REST
-
----
-
-## 🟣 Versão 3.0
-
-Migração e reorganização da aplicação.
-
-Principais evoluções:
-
-* Migração de SQLite3 para PostgreSQL
-* Integração com Psycopg
-* Criação de `schema.sql`
-* Utilização de `IDENTITY`
-* Utilização do tipo `BOOLEAN` do PostgreSQL
-* Manutenção dos relacionamentos através de Foreign Keys
-* Reorganização da estrutura de diretórios
-* Separação do fluxo de relatórios
-* Correção dos imports após reorganização
-* Criação do `.gitignore`
-* Criação do `requirements.txt`
-* Remoção da dependência do arquivo SQLite
-* Adaptação das queries para PostgreSQL
-* Correções nos fluxos de empréstimos e devoluções
-* Testes funcionais após a migração
-
----
-
-## 🚀 Versão 4.0 — Em desenvolvimento
-
-A versão 4.0 tem como objetivo transformar o projeto em uma aplicação backend mais estruturada, segura, amigável e próxima de um sistema real.
-
-### Experiência de uso
-
-* [ ] Reduzir dependência de IDs
-* [ ] Implementar pesquisa e seleção de usuários
-* [ ] Implementar pesquisa e seleção de livros
-* [ ] Melhorar seleção de empréstimos para devolução
-
-### CRUD
-
-* [ ] Implementar edição de usuários
-* [ ] Implementar edição de livros
-* [ ] Completar CRUD das principais entidades
-
-### Empréstimos
-
-* [ ] Adicionar data do empréstimo
-* [ ] Adicionar prazo de devolução
-* [ ] Adicionar data efetiva de devolução
-* [ ] Implementar status
-* [ ] Manter histórico
-* [ ] Remover `DELETE` da operação de devolução
-* [ ] Identificar empréstimos atrasados
-
-### Banco de dados
-
-* [ ] Evoluir `schema.sql`
-* [ ] Melhorar transações
-* [ ] Implementar rollback
-* [ ] Melhorar tratamento de erros PostgreSQL
-
-### Arquitetura
-
-* [ ] Separar persistência e apresentação
-* [ ] Reduzir responsabilidades de `banco_de_dados.py`
-* [ ] Centralizar regras de negócio
-* [ ] Reutilizar regras entre terminal e API
-* [ ] Padronizar nomes e retornos das funções
-
-### Segurança
-
-* [ ] Criar `.env`
-* [ ] Remover credenciais do código
-* [ ] Adicionar `.env` ao `.gitignore`
-* [ ] Configurar variáveis de ambiente
-
-### API
-
-* [ ] Revisar endpoints
-* [ ] Expandir CRUD pela API
-* [ ] Criar endpoints de empréstimos
-* [ ] Melhorar schemas Pydantic
+* [ ] Reorganizar a estrutura da FastAPI
+* [ ] Separar rotas com routers
+* [ ] Criar rotas completas de usuários
+* [ ] Criar rotas completas de livros
+* [ ] Criar rotas de empréstimos
+* [ ] Criar rota de devolução
+* [ ] Disponibilizar histórico de empréstimos
+* [ ] Integrar a API aos services
+* [ ] Criar schemas Pydantic de entrada e saída
 * [ ] Utilizar códigos HTTP adequados
 * [ ] Melhorar tratamento de erros
-
-### Relatórios
-
-* [ ] Histórico de empréstimos
-* [ ] Empréstimos ativos
-* [ ] Empréstimos atrasados
-* [ ] Livros mais emprestados
-* [ ] Usuários com mais empréstimos
-* [ ] Histórico por usuário
-* [ ] Histórico por livro
-
-### Qualidade
-
 * [ ] Implementar testes automatizados
-* [ ] Revisar duplicações
-* [ ] Melhorar tratamento de exceções
-* [ ] Atualizar documentação
-* [ ] Realizar bateria final de testes
+* [ ] Testar endpoints
+* [ ] Melhorar documentação automática
+* [ ] Revisar e expandir relatórios
 
 ---
 
-# 🧹 Refatorações identificadas
+# 🧪 Testes
 
-Algumas melhorias já foram identificadas para a versão 4.0.
+Até a versão 4.0, os principais fluxos foram validados através de testes manuais.
 
-Entre elas:
+Foram testados:
 
-```text
-pecorrer_livros()
-```
+* Conexão com PostgreSQL
+* Cadastro de usuários
+* Atualização de usuários
+* Remoção de usuários
+* Listagem de usuários
+* Cadastro de livros
+* Atualização de livros
+* Remoção de livros
+* Listagem de livros
+* Filtros
+* Empréstimos
+* Disponibilidade
+* Devoluções
+* Histórico
+* Menus
+* Relatórios
+* Services
+* Repositories
 
-deverá ser padronizado para um nome mais descritivo, como:
+A implementação de testes automatizados está planejada para uma próxima etapa do projeto.
 
-```text
-listar_livros()
-```
+---
 
-A função de devolução também poderá deixar de receber `id_livro`, pois o próprio empréstimo permite identificar o livro relacionado.
+# 🛠️ Tecnologias utilizadas
 
-As funções de acesso ao banco deverão gradualmente deixar de realizar `print()` diretamente.
-
-O objetivo é chegar ao fluxo:
-
-```text
-PostgreSQL
-    ↓
-Consulta
-    ↓
-Dados
-    ↓
-Regra de negócio
-    ↓
-Terminal ou API
-```
+* 🐍 Python
+* 🐘 PostgreSQL
+* 🔌 Psycopg
+* ⚡ FastAPI
+* 📦 Pydantic
+* 🔐 python-dotenv
+* 📄 SQL
+* 🔗 Git
+* 🐙 GitHub
 
 ---
 
 # 🧠 Conceitos aplicados
 
-Durante o desenvolvimento do projeto foram aplicados:
+Durante o desenvolvimento foram utilizados:
 
 * Programação Orientada a Objetos
 * Classes
@@ -931,14 +734,18 @@ Durante o desenvolvimento do projeto foram aplicados:
 * Métodos
 * Funções
 * Modularização
+* Arquitetura em camadas
+* Repository Pattern
+* Service Layer
 * PostgreSQL
 * Psycopg
 * SQL
-* CRUD
+* CRUD completo
 * Primary Key
 * Foreign Key
 * `IDENTITY`
 * `BOOLEAN`
+* `TIMESTAMP`
 * Relacionamentos
 * `INNER JOIN`
 * `LEFT JOIN`
@@ -952,6 +759,9 @@ Durante o desenvolvimento do projeto foram aplicados:
 * `GROUP BY`
 * Consultas parametrizadas
 * Transações
+* `commit`
+* `rollback`
+* Variáveis de ambiente
 * FastAPI
 * Pydantic
 * APIs REST
@@ -960,30 +770,126 @@ Durante o desenvolvimento do projeto foram aplicados:
 
 ---
 
-# 🎯 Objetivo da versão 4.0
+# 📈 Evolução do projeto
 
-A versão 4.0 não tem como objetivo apenas adicionar mais funcionalidades.
+## 🟢 Versão 1.0
 
-O principal objetivo é evoluir o projeto de um sistema funcional de estudos para uma aplicação backend mais organizada e preparada para crescimento.
+Primeira versão do sistema.
 
-A evolução será baseada em quatro princípios:
+Principais características:
+
+* Python
+* Programação Orientada a Objetos
+* Cadastro básico de livros
+* Classes e objetos
+* Estrutura inicial da biblioteca
+
+---
+
+## 🔵 Versão 2.0
+
+Expansão para banco de dados e API.
+
+Principais evoluções:
+
+* SQLite3
+* SQL
+* Usuários
+* Empréstimos
+* Devoluções
+* Controle de disponibilidade
+* Foreign Keys
+* Relacionamentos
+* JOIN
+* Relatórios
+* FastAPI
+* Pydantic
+* API REST inicial
+
+---
+
+## 🟣 Versão 3.0
+
+Migração da infraestrutura de dados.
+
+Principais evoluções:
+
+* Migração de SQLite3 para PostgreSQL
+* Integração com Psycopg
+* Criação de `schema.sql`
+* Uso de `IDENTITY`
+* Uso de `BOOLEAN`
+* Reorganização da estrutura
+* Separação inicial dos módulos
+* Criação de `.gitignore`
+* Criação de `requirements.txt`
+* Adaptação das consultas para PostgreSQL
+* Correções nos fluxos
+* Estabilização da aplicação
+
+---
+
+## 🟠 Versão 4.0
+
+Refatoração estrutural e evolução das regras de negócio.
+
+Principais mudanças:
+
+* Credenciais protegidas através de `.env`
+* Integração com `python-dotenv`
+* Uso de variáveis de ambiente
+* Implementação de transações
+* Uso de `commit()` e `rollback()`
+* Histórico permanente de empréstimos
+* Registro automático de data de empréstimo
+* Registro de data de devolução
+* Status de empréstimos
+* Fim da exclusão do histórico durante devoluções
+* CRUD completo de usuários
+* CRUD completo de livros
+* Separação do acesso ao banco através de repositories
+* Criação da camada de services
+* Separação entre regras de negócio e persistência
+* Services de livros
+* Services de usuários
+* Services de empréstimos
+* Reorganização das responsabilidades internas
+* Correção e padronização dos fluxos
+* Testes manuais das principais funcionalidades
+
+### Resumo da versão 4.0
+
+> **Refatoração estrutural do sistema com `.env`, transações e `rollback`, histórico de empréstimos, CRUD completo, separação em repositories e criação da camada de services para centralizar as regras de negócio.**
+
+---
+
+# 🎯 Próxima etapa
+
+A arquitetura atual prepara o projeto para a versão 5.0.
+
+O próximo grande objetivo será evoluir a API para aproveitar:
 
 ```text
-Funcionalidade
-+
-Usabilidade
-+
-Organização
-+
-Confiabilidade
+FastAPI
+   ↓
+Services
+   ↓
+Repositories
+   ↓
+PostgreSQL
 ```
 
-O PostgreSQL continuará sendo utilizado diretamente através do Psycopg, permitindo aprofundar os conhecimentos de SQL antes da adoção futura de uma ORM.
+Permitindo que terminal e API utilizem as mesmas regras de negócio.
 
 ---
 
 # 👨‍💻 Desenvolvimento
 
-Projeto desenvolvido como parte dos estudos práticos de **Python, PostgreSQL, SQL, Programação Orientada a Objetos, FastAPI, APIs REST e desenvolvimento backend**.
+Projeto desenvolvido como parte dos estudos práticos de:
 
-**Projeto Biblioteca — Versão 4.0 em desenvolvimento 🚀**
+**Python • PostgreSQL • SQL • Programação Orientada a Objetos • Arquitetura Backend • FastAPI • APIs REST**
+
+---
+
+**📚 Projeto Biblioteca — Versão 4.0**
+
