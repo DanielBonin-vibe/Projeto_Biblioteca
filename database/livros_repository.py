@@ -123,3 +123,20 @@ def filtrar_encontrar_livro_nome(nome_pesquisado):
     conexao.close()
 
     return filtro
+
+def buscar_livro_por_id(id_livro):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT id_livro, titulo, autor, ano, disponivel
+        FROM livros
+        WHERE id_livro = %s
+    """, (id_livro,))
+
+    livro = cursor.fetchone()
+
+    cursor.close()
+    conexao.close()
+
+    return livro

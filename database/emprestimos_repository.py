@@ -5,19 +5,6 @@ def cadastrar_emprestimo(id_usuario, id_livro):
     cursor = conexao.cursor()
 
     try:
-        cursor.execute("""
-            SELECT id_livro, titulo, autor, ano, disponivel
-            FROM livros
-            WHERE id_livro = %s
-        """, (id_livro,))
-
-        livro = cursor.fetchone()
-
-        if livro is None:
-            return None
-
-        if not livro[4]:
-            return None
 
         cursor.execute("""
             INSERT INTO emprestimos (id_usuario, id_livro)
